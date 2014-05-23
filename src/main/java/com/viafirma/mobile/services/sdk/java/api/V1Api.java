@@ -1,15 +1,18 @@
 package com.viafirma.mobile.services.sdk.java.api;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.viafirma.mobile.services.sdk.java.ApiException;
 import com.viafirma.mobile.services.sdk.java.ApiInvoker;
-import java.io.File;
-import com.viafirma.mobile.services.sdk.java.model.Policy;
-import com.viafirma.mobile.services.sdk.java.model.User;
-import com.viafirma.mobile.services.sdk.java.model.Message;
 import com.viafirma.mobile.services.sdk.java.model.Device;
 import com.viafirma.mobile.services.sdk.java.model.Form;
+import com.viafirma.mobile.services.sdk.java.model.Message;
 import com.viafirma.mobile.services.sdk.java.model.Notification;
-import java.util.*;
+import com.viafirma.mobile.services.sdk.java.model.Policy;
+import com.viafirma.mobile.services.sdk.java.model.User;
 
 public class V1Api {
   String basePath = "http://dev.viafirma.com/mobile-services//api";
