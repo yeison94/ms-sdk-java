@@ -1,4 +1,4 @@
-Mobile Services SDK iOS
+Mobile Services SDK Java
 ==========
 
 Cliente Java para Mobile Services - Viafirma
