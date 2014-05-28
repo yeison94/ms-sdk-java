@@ -5,7 +5,7 @@
   <artifactId>ms-sdk-java</artifactId>
   <packaging>jar</packaging>
   <name>ms-sdk-java</name>
-  <version>1.0.5</version>
+  <version>1.0.7</version>
   <scm>
     <connection>scm:git:git@github.com:wordnik/swagger-mustache.git</connection>
     <developerConnection>scm:git:git@github.com:wordnik/swagger-codegen.git</developerConnection>

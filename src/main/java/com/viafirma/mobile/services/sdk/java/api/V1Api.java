@@ -1,21 +1,18 @@
 package com.viafirma.mobile.services.sdk.java.api;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.viafirma.mobile.services.sdk.java.ApiException;
 import com.viafirma.mobile.services.sdk.java.ApiInvoker;
-import com.viafirma.mobile.services.sdk.java.model.Device;
-import com.viafirma.mobile.services.sdk.java.model.Form;
-import com.viafirma.mobile.services.sdk.java.model.Message;
-import com.viafirma.mobile.services.sdk.java.model.Notification;
+import java.io.File;
 import com.viafirma.mobile.services.sdk.java.model.Policy;
 import com.viafirma.mobile.services.sdk.java.model.User;
+import com.viafirma.mobile.services.sdk.java.model.Message;
+import com.viafirma.mobile.services.sdk.java.model.Device;
+import com.viafirma.mobile.services.sdk.java.model.Form;
+import com.viafirma.mobile.services.sdk.java.model.Notification;
+import java.util.*;
 
 public class V1Api {
-  String basePath = "http://dev.viafirma.com/mobile-services//api";
+  String basePath = "https://testservices.viafirma.com/mobile-services/api";
   String consumerKey = "";
   String consumerSecret = "";
 
@@ -49,6 +46,41 @@ public class V1Api {
     return consumerSecret;
   }
 
+  public Device registerDevice (Device body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/v1/devices".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      if(response != null){
+        return (Device) ApiInvoker.deserialize(response, "", Device.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   public Device findDeviceByIdentifier (String identifier) throws ApiException {
     // verify required params are set
     if(identifier == null ) {
@@ -106,41 +138,6 @@ public class V1Api {
       String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Device>) ApiInvoker.deserialize(response, "Array", Device.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return null;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  public Device registerDevice (Device body) throws ApiException {
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/v1/devices".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    String[] contentTypes = {
-      "application/json"};
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
-      if(response != null){
-        return (Device) ApiInvoker.deserialize(response, "", Device.class);
       }
       else {
         return null;
@@ -261,6 +258,41 @@ public class V1Api {
       }
     }
   }
+  public String sendMessage (Message body) throws ApiException {
+    // verify required params are set
+    if(body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/v1/messages".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      if(response != null){
+        return (String) ApiInvoker.deserialize(response, "", String.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   public Message getMessageByCode (String messageCode) throws ApiException {
     // verify required params are set
     if(messageCode == null ) {
@@ -296,13 +328,13 @@ public class V1Api {
       }
     }
   }
-  public String sendMessage (Message body) throws ApiException {
+  public String sendNotification (Notification body) throws ApiException {
     // verify required params are set
     if(body == null ) {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/v1/messages".replaceAll("\\{format\\}","json");
+    String path = "/v1/notifications".replaceAll("\\{format\\}","json");
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -465,41 +497,6 @@ public class V1Api {
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
       	return ;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  public String sendNotification (Notification body) throws ApiException {
-    // verify required params are set
-    if(body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/v1/notifications".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    String[] contentTypes = {
-      "application/json"};
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
-      if(response != null){
-        return (String) ApiInvoker.deserialize(response, "", String.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return null;
       }
       else {
         throw ex;
