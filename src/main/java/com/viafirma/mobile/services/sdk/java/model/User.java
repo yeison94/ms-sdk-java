@@ -12,6 +12,8 @@ public class User {
   private String viafirmaKey = null;
   private String viafirmaPassword = null;
   private String viafirmaCertificate = null;
+  private String region = null;
+  private String pos = null;
   public String getCode() {
     return code;
   }
@@ -89,6 +91,20 @@ public class User {
     this.viafirmaCertificate = viafirmaCertificate;
   }
 
+  public String getRegion() {
+    return region;
+  }
+  public void setRegion(String region) {
+    this.region = region;
+  }
+
+  public String getPos() {
+    return pos;
+  }
+  public void setPos(String pos) {
+    this.pos = pos;
+  }
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
@@ -104,6 +120,8 @@ public class User {
     sb.append("  viafirmaKey: ").append(viafirmaKey).append("\n");
     sb.append("  viafirmaPassword: ").append(viafirmaPassword).append("\n");
     sb.append("  viafirmaCertificate: ").append(viafirmaCertificate).append("\n");
+    sb.append("  region: ").append(region).append("\n");
+    sb.append("  pos: ").append(pos).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

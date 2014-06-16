@@ -12,7 +12,7 @@ import com.viafirma.mobile.services.sdk.java.model.Notification;
 import java.util.*;
 
 public class V1Api {
-  String basePath = "https://testservices.viafirma.com/mobile-services/api";
+  String basePath = "http://presura.viafirma.com/mobile-services//api";
   String consumerKey = "";
   String consumerSecret = "";
 
@@ -363,76 +363,6 @@ public class V1Api {
       }
     }
   }
-  public List<Notification> findNotificationsByToken (String token) throws ApiException {
-    // verify required params are set
-    if(token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/v1/notifications/token/{token}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString()));
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    String[] contentTypes = {
-      "application/json"};
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
-      if(response != null){
-        return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return null;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  public List<Notification> findNotificationsByTokenStatus (String token, String status) throws ApiException {
-    // verify required params are set
-    if(token == null || status == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/v1/notifications/token/{token}/status/{status}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString())).replaceAll("\\{" + "status" + "\\}", apiInvoker.escapeString(status.toString()));
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    String[] contentTypes = {
-      "application/json"};
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
-      if(response != null){
-        return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return null;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
   public List<Notification> findNotificationsByCode (String code) throws ApiException {
     // verify required params are set
     if(code == null ) {
@@ -497,6 +427,76 @@ public class V1Api {
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
       	return ;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public List<Notification> findNotificationsByTokenStatus (String token, String status) throws ApiException {
+    // verify required params are set
+    if(token == null || status == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/v1/notifications/token/{token}/status/{status}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString())).replaceAll("\\{" + "status" + "\\}", apiInvoker.escapeString(status.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      if(response != null){
+        return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public List<Notification> findNotificationsByToken (String token) throws ApiException {
+    // verify required params are set
+    if(token == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/v1/notifications/token/{token}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      if(response != null){
+        return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return null;
       }
       else {
         throw ex;
