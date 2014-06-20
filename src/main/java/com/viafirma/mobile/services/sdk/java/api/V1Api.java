@@ -1,15 +1,22 @@
 package com.viafirma.mobile.services.sdk.java.api;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sun.jersey.api.client.ClientResponse;
 import com.viafirma.mobile.services.sdk.java.ApiException;
 import com.viafirma.mobile.services.sdk.java.ApiInvoker;
-import java.io.File;
-import com.viafirma.mobile.services.sdk.java.model.Policy;
-import com.viafirma.mobile.services.sdk.java.model.User;
-import com.viafirma.mobile.services.sdk.java.model.Message;
 import com.viafirma.mobile.services.sdk.java.model.Device;
 import com.viafirma.mobile.services.sdk.java.model.Form;
+import com.viafirma.mobile.services.sdk.java.model.Message;
 import com.viafirma.mobile.services.sdk.java.model.Notification;
-import java.util.*;
+import com.viafirma.mobile.services.sdk.java.model.Policy;
+import com.viafirma.mobile.services.sdk.java.model.User;
 
 public class V1Api {
   String basePath = "https://testservices.viafirma.com/mobile-services/api";
@@ -151,7 +158,7 @@ public class V1Api {
       }
     }
   }
-  public void getDocument (String type, String messageCode, String documentCode) throws ApiException {
+  public byte[] getDocument (String type, String messageCode, String documentCode) throws ApiException {
     // verify required params are set
     if(type == null || messageCode == null || documentCode == null ) {
        throw new ApiException(400, "missing required params");
@@ -170,16 +177,23 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      ClientResponse response = apiInvoker.invokeAPIAsClientResponse(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
-        return ;
+    	  InputStream input = (InputStream)response.getEntityInputStream();
+    	  byte[] bytes;
+        try {
+	        bytes = toByteArray(input);
+        } catch (IOException e) {
+        	throw new ApiException(500, "error getting document");
+        } 
+        return bytes;
       }
       else {
-        return ;
+        return null;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-      	return ;
+      	return null;
       }
       else {
         throw ex;
@@ -686,5 +700,19 @@ public class V1Api {
       }
     }
   }
+
+	public static byte[] toByteArray(InputStream input) throws IOException {
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+		int nRead;
+		byte[] data = new byte[1024 * 4];
+
+		while ((nRead = input.read(data, 0, data.length)) != -1) {
+			buffer.write(data, 0, nRead);
+		}
+
+		buffer.flush();
+		return buffer.toByteArray();
+	}
   }
 

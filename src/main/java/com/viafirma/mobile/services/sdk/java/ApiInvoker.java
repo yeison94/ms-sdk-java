@@ -89,6 +89,11 @@ public class ApiInvoker {
   }
 
   public String invokeAPI(String host, String consumerKey, String consumerSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+	  ClientResponse clientResponse = invokeAPIAsClientResponse(host, consumerKey, consumerSecret, path, method, queryParams, body, headerParams, formParams, contentType);
+	  return clientResponse == null ?  null : (String) clientResponse.getEntity(String.class);
+  }
+
+  public ClientResponse invokeAPIAsClientResponse(String host, String consumerKey, String consumerSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
       Client client = getClient(host);
 
       StringBuilder b = new StringBuilder();
@@ -174,7 +179,7 @@ public class ApiInvoker {
         return null;
       }
       else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
-        return (String) response.getEntity(String.class);
+        return response;
       }
       else {
         throw new ApiException(
