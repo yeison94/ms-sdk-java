@@ -4,6 +4,7 @@ import com.viafirma.mobile.services.sdk.java.ApiException;
 import com.viafirma.mobile.services.sdk.java.ApiInvoker;
 import java.io.File;
 import com.viafirma.mobile.services.sdk.java.model.Policy;
+import com.viafirma.mobile.services.sdk.java.model.Token;
 import com.viafirma.mobile.services.sdk.java.model.User;
 import com.viafirma.mobile.services.sdk.java.model.Message;
 import com.viafirma.mobile.services.sdk.java.model.Device;
@@ -12,9 +13,11 @@ import com.viafirma.mobile.services.sdk.java.model.Notification;
 import java.util.*;
 
 public class V1Api {
-  String basePath = "http://presura.viafirma.com/mobile-services//api";
-  String consumerKey = "";
-  String consumerSecret = "";
+  String basePath = "/";
+  String consumerKey = null;
+  String consumerSecret = null;
+  String token = null;
+  String tokenSecret = null;
 
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
@@ -46,6 +49,22 @@ public class V1Api {
     return consumerSecret;
   }
 
+  public String getToken() {
+  	return token;
+  }
+
+  public void setToken(String token) {
+  	this.token = token;
+  }
+
+  public String getTokenSecret() {
+  	return tokenSecret;
+  }
+
+  public void setTokenSecret(String tokenSecret) {
+  	this.tokenSecret = tokenSecret;
+  }
+
   public Device registerDevice (Device body) throws ApiException {
     // verify required params are set
     if(body == null ) {
@@ -65,7 +84,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return (Device) ApiInvoker.deserialize(response, "", Device.class);
       }
@@ -100,7 +119,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Device) ApiInvoker.deserialize(response, "", Device.class);
       }
@@ -135,7 +154,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Device>) ApiInvoker.deserialize(response, "Array", Device.class);
       }
@@ -170,7 +189,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -207,7 +226,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -242,7 +261,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Form>) ApiInvoker.deserialize(response, "Array", Form.class);
       }
@@ -277,7 +296,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return (String) ApiInvoker.deserialize(response, "", String.class);
       }
@@ -312,7 +331,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Message) ApiInvoker.deserialize(response, "", Message.class);
       }
@@ -328,13 +347,13 @@ public class V1Api {
       }
     }
   }
-  public String sendNotification (Notification body) throws ApiException {
+  public List<Notification> findNotificationsByToken (String token) throws ApiException {
     // verify required params are set
-    if(body == null ) {
+    if(token == null ) {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/v1/notifications".replaceAll("\\{format\\}","json");
+    String path = "/v1/notifications/token/{token}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -347,9 +366,44 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
-        return (String) ApiInvoker.deserialize(response, "", String.class);
+        return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public List<Notification> findNotificationsByTokenStatus (String token, String status) throws ApiException {
+    // verify required params are set
+    if(token == null || status == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/v1/notifications/token/{token}/status/{status}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString())).replaceAll("\\{" + "status" + "\\}", apiInvoker.escapeString(status.toString()));
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      if(response != null){
+        return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
       }
       else {
         return null;
@@ -382,7 +436,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
       }
@@ -417,7 +471,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "PUT", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "PUT", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -433,13 +487,13 @@ public class V1Api {
       }
     }
   }
-  public List<Notification> findNotificationsByTokenStatus (String token, String status) throws ApiException {
+  public String sendNotification (Notification body) throws ApiException {
     // verify required params are set
-    if(token == null || status == null ) {
+    if(body == null ) {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/v1/notifications/token/{token}/status/{status}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString())).replaceAll("\\{" + "status" + "\\}", apiInvoker.escapeString(status.toString()));
+    String path = "/v1/notifications".replaceAll("\\{format\\}","json");
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -452,44 +506,9 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
-        return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	return null;
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  public List<Notification> findNotificationsByToken (String token) throws ApiException {
-    // verify required params are set
-    if(token == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/v1/notifications/token/{token}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString()));
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    String[] contentTypes = {
-      "application/json"};
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
-      if(response != null){
-        return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
+        return (String) ApiInvoker.deserialize(response, "", String.class);
       }
       else {
         return null;
@@ -525,7 +544,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
       }
@@ -563,7 +582,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
       }
@@ -598,7 +617,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
       }
@@ -633,7 +652,7 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (User) ApiInvoker.deserialize(response, "", User.class);
       }
@@ -670,9 +689,79 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (User) ApiInvoker.deserialize(response, "", User.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public Token postRequestToken (String callback) throws ApiException {
+    // create path and map variables
+    String path = "/v1/oauth/requestToken".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    formParams.put("callback", callback);
+    String[] contentTypes = {
+      "application/x-www-form-urlencoded"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      if(response != null){
+        return (Token) ApiInvoker.deserialize(response, "", Token.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	return null;
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  public Token postAccessToken (String x_auth_username, String x_auth_password, String x_auth_mode) throws ApiException {
+    // verify required params are set
+    if(x_auth_mode == null || x_auth_username == null || x_auth_password == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String path = "/v1/oauth/accessToken".replaceAll("\\{format\\}","json");
+
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    formParams.put("x_auth_mode", x_auth_mode);
+    formParams.put("x_auth_username", x_auth_username);
+    formParams.put("x_auth_password", x_auth_password);
+    String[] contentTypes = {
+      "application/x-www-form-urlencoded"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    try {
+      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      if(response != null){
+        return (Token) ApiInvoker.deserialize(response, "", Token.class);
       }
       else {
         return null;
