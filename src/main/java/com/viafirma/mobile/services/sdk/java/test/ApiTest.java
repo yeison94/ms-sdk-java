@@ -33,9 +33,11 @@ public class ApiTest  extends TestCase {
 		api.setBasePath(urlApi);		
 		api.setConsumerKey(consumerKey);		
 		api.setConsumerSecret(consumerSecret);
+		
 		Token token = api.postRequestToken(null);
 		api.setToken(token.getOauth_token());
 		api.setTokenSecret(token.getOauth_token_secret());
+		
 		token = api.postAccessToken(userCode, userPass, "client_auth");
 		api.setToken(token.getOauth_token());
 		api.setTokenSecret(token.getOauth_token_secret());
