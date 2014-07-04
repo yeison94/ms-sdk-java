@@ -1,7 +1,6 @@
 package com.viafirma.mobile.services.sdk.java.api;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,11 +87,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return (Device) ApiInvoker.deserialize(response, "", Device.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -123,11 +121,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Device) ApiInvoker.deserialize(response, "", Device.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -158,11 +155,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Device>) ApiInvoker.deserialize(response, "Array", Device.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -192,11 +188,12 @@ public class V1Api {
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    try {
-		return apiInvoker.invokeAPIContent(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
-	} catch (IOException e) {
-		throw new ApiException(500, "error getting document");
-	}
+    byte[] response = apiInvoker.invokeFileAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+    if(response != null){
+      return response;
+    }else {
+      return null;
+    }
     
   }
   public void sendEvidence (String messageCode, String policyCode, String evidenceCode, File body, String metadata, String fingerID, String algorithmic) throws ApiException {
@@ -220,11 +217,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
-      }
-      else {
+      }else {
         return ;
       }
     } catch (ApiException ex) {
@@ -255,11 +251,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Form>) ApiInvoker.deserialize(response, "Array", Form.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -290,11 +285,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return (String) ApiInvoker.deserialize(response, "", String.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -325,11 +319,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Message) ApiInvoker.deserialize(response, "", Message.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -360,11 +353,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return (String) ApiInvoker.deserialize(response, "", String.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -395,11 +387,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -430,11 +421,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -465,11 +455,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -500,11 +489,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "PUT", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "PUT", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return ;
-      }
-      else {
+      }else {
         return ;
       }
     } catch (ApiException ex) {
@@ -538,11 +526,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -576,11 +563,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -611,11 +597,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
       if(response != null){
         return ;
-      }
-      else {
+      }else {
         return ;
       }
     } catch (ApiException ex) {
@@ -646,11 +631,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (User) ApiInvoker.deserialize(response, "", User.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -683,11 +667,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (User) ApiInvoker.deserialize(response, "", User.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -715,11 +698,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Token) ApiInvoker.deserialize(response, "", Token.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {
@@ -753,11 +735,10 @@ public class V1Api {
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+      String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
         return (Token) ApiInvoker.deserialize(response, "", Token.class);
-      }
-      else {
+      }else {
         return null;
       }
     } catch (ApiException ex) {

@@ -1,22 +1,30 @@
 package com.viafirma.mobile.services.sdk.java;
 
+import com.fasterxml.jackson.core.JsonGenerator.Feature;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.client.filter.LoggingFilter;
+import com.sun.jersey.api.client.WebResource.Builder;
+
+import javax.ws.rs.core.Response.Status.Family;
+import javax.ws.rs.core.MediaType;
+
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
 
-import javax.ws.rs.core.Response.Status.Family;
-
-import com.fasterxml.jackson.databind.JavaType;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.WebResource.Builder;
-import com.sun.jersey.api.client.filter.LoggingFilter;
 import com.sun.jersey.oauth.client.OAuthClientFilter;
 import com.sun.jersey.oauth.signature.OAuthParameters;
 import com.sun.jersey.oauth.signature.OAuthSecrets;
@@ -82,257 +90,154 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
-      Client client = getClient(host);
+  public String invokeJsonAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+  	  ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
+  	  return (String) response.getEntity(String.class);
+    }
 
-      StringBuilder b = new StringBuilder();
+    public byte[] invokeFileAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+  	  ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
+  	  try {
+  		return toByteArray(response.getEntityInputStream());
+  	} catch (IOException e) {
+  		throw new ApiException(500, "Error getting file");
+  	}
+    }
 
-      for(String key : queryParams.keySet()) {
-        String value = queryParams.get(key);
-        if (value != null){
-          if(b.toString().length() == 0)
-            b.append("?");
-          else
-            b.append("&");
-          b.append(escapeString(key)).append("=").append(escapeString(value));
+    private ClientResponse invokeAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+        Client client = getClient(host);
+
+        StringBuilder b = new StringBuilder();
+
+        for(String key : queryParams.keySet()) {
+          String value = queryParams.get(key);
+          if (value != null){
+            if(b.toString().length() == 0)
+              b.append("?");
+            else
+              b.append("&");
+            b.append(escapeString(key)).append("=").append(escapeString(value));
+          }
         }
-      }
 
-      String querystring = b.toString();
+        String querystring = b.toString();
 
-      OAuthParameters params = new OAuthParameters().signature("HAMC-SHA1").consumerKey(consumerKey);
-      if (token != null) {
-      	params.setToken(token);
-      }
-  	  OAuthSecrets secrets = new OAuthSecrets().consumerSecret(consumerSecret);
-  	  if (tokenSecret != null) {
-        secrets.setTokenSecret(tokenSecret);
-      }
-  	  OAuthClientFilter filter = new OAuthClientFilter(client.getProviders(), params, secrets);
-  	  WebResource resource = client.resource(host + path + querystring);
-  	  resource.addFilter(filter);
-      Builder builder = resource.accept("application/json");
-
-      for(String key : headerParams.keySet()) {
-        builder.header(key, headerParams.get(key));
-      }
-
-      for(String key : defaultHeaderMap.keySet()) {
-        if(!headerParams.containsKey(key)) {
-          builder.header(key, defaultHeaderMap.get(key));
+        OAuthParameters params = new OAuthParameters().signature("HAMC-SHA1").consumerKey(consumerKey);
+        if (token != null) {
+        	params.setToken(token);
         }
-      }
-      ClientResponse response = null;
-
-      if("GET".equals(method)) {
-        response = (ClientResponse) builder.get(ClientResponse.class);
-      }
-      else if ("POST".equals(method)) {
-        if("application/x-www-form-urlencoded".equals(contentType)) {
-        	StringBuilder formParamBuilder = new StringBuilder();
-
-        	// encode the form params
-        	for(String key : formParams.keySet()) {
-        		String value = formParams.get(key);
-        		if(value != null && !"".equals(value.trim())) {
-        	    	if(formParamBuilder.length() > 0) {
-        		    	formParamBuilder.append("&");
-        			}
-
-        			try {
-        				formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
-        			}
-        			catch (Exception e) {
-        				// move on to next
-        			}
-        	    }
-        	}
-        	response = builder.type(contentType).post(ClientResponse.class, formParamBuilder.toString());
-        }else{
-        	response = builder.type(contentType).post(ClientResponse.class, serialize(body));
+    	  OAuthSecrets secrets = new OAuthSecrets().consumerSecret(consumerSecret);
+    	  if (tokenSecret != null) {
+          secrets.setTokenSecret(tokenSecret);
         }
-      }
-      else if ("PUT".equals(method)) {
-        if(body == null)
-          response = builder.put(ClientResponse.class, serialize(body));
-        else {
+    	  OAuthClientFilter filter = new OAuthClientFilter(client.getProviders(), params, secrets);
+    	  WebResource resource = client.resource(host + path + querystring);
+    	  resource.addFilter(filter);
+        Builder builder = resource.accept("application/json");
+
+        for(String key : headerParams.keySet()) {
+          builder.header(key, headerParams.get(key));
+        }
+
+        for(String key : defaultHeaderMap.keySet()) {
+          if(!headerParams.containsKey(key)) {
+            builder.header(key, defaultHeaderMap.get(key));
+          }
+        }
+        ClientResponse response = null;
+
+        if("GET".equals(method)) {
+          response = (ClientResponse) builder.get(ClientResponse.class);
+        }
+        else if ("POST".equals(method)) {
           if("application/x-www-form-urlencoded".equals(contentType)) {
-            StringBuilder formParamBuilder = new StringBuilder();
+          	StringBuilder formParamBuilder = new StringBuilder();
 
-            // encode the form params
-            for(String key : formParams.keySet()) {
-              String value = formParams.get(key);
-              if(value != null && !"".equals(value.trim())) {
-                if(formParamBuilder.length() > 0) {
-                  formParamBuilder.append("&");
-                }
-                try {
-                  formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
-                }
-                catch (Exception e) {
-                  // move on to next
+          	// encode the form params
+          	for(String key : formParams.keySet()) {
+          		String value = formParams.get(key);
+          		if(value != null && !"".equals(value.trim())) {
+          	    	if(formParamBuilder.length() > 0) {
+          		    	formParamBuilder.append("&");
+          			}
+
+          			try {
+          				formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
+          			}
+          			catch (Exception e) {
+          				// move on to next
+          			}
+          	    }
+          	}
+          	response = builder.type(contentType).post(ClientResponse.class, formParamBuilder.toString());
+          }else{
+          	response = builder.type(contentType).post(ClientResponse.class, serialize(body));
+          }
+        }
+        else if ("PUT".equals(method)) {
+          if(body == null)
+            response = builder.put(ClientResponse.class, serialize(body));
+          else {
+            if("application/x-www-form-urlencoded".equals(contentType)) {
+              StringBuilder formParamBuilder = new StringBuilder();
+
+              // encode the form params
+              for(String key : formParams.keySet()) {
+                String value = formParams.get(key);
+                if(value != null && !"".equals(value.trim())) {
+                  if(formParamBuilder.length() > 0) {
+                    formParamBuilder.append("&");
+                  }
+                  try {
+                    formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
+                  }
+                  catch (Exception e) {
+                    // move on to next
+                  }
                 }
               }
+              response = builder.type(contentType).put(ClientResponse.class, formParamBuilder.toString());
             }
-            response = builder.type(contentType).put(ClientResponse.class, formParamBuilder.toString());
+            else
+              response = builder.type(contentType).put(ClientResponse.class, serialize(body));
           }
+        }
+        else if ("DELETE".equals(method)) {
+          if(body == null)
+            response = builder.delete(ClientResponse.class, serialize(body));
           else
-            response = builder.type(contentType).put(ClientResponse.class, serialize(body));
+            response = builder.type(contentType).delete(ClientResponse.class, serialize(body));
         }
-      }
-      else if ("DELETE".equals(method)) {
-        if(body == null)
-          response = builder.delete(ClientResponse.class, serialize(body));
-        else
-          response = builder.type(contentType).delete(ClientResponse.class, serialize(body));
-      }
-      else {
-        throw new ApiException(500, "unknown method type " + method);
-      }
-      if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
-        return null;
-      }
-      else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
-        return (String) response.getEntity(String.class);
-      }
-      else {
-        throw new ApiException(
-                  response.getClientResponseStatus().getStatusCode(),
-                  response.getEntity(String.class));
-      }
-  }
-  public byte[] invokeAPIContent(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException, IOException {
-      Client client = getClient(host);
-
-      StringBuilder b = new StringBuilder();
-
-      for(String key : queryParams.keySet()) {
-        String value = queryParams.get(key);
-        if (value != null){
-          if(b.toString().length() == 0)
-            b.append("?");
-          else
-            b.append("&");
-          b.append(escapeString(key)).append("=").append(escapeString(value));
-        }
-      }
-
-      String querystring = b.toString();
-
-      OAuthParameters params = new OAuthParameters().signature("HAMC-SHA1").consumerKey(consumerKey);
-      if (token != null) {
-      	params.setToken(token);
-      }
-  	  OAuthSecrets secrets = new OAuthSecrets().consumerSecret(consumerSecret);
-  	  if (tokenSecret != null) {
-        secrets.setTokenSecret(tokenSecret);
-      }
-  	  OAuthClientFilter filter = new OAuthClientFilter(client.getProviders(), params, secrets);
-  	  WebResource resource = client.resource(host + path + querystring);
-  	  resource.addFilter(filter);
-      Builder builder = resource.accept("application/json");
-
-      for(String key : headerParams.keySet()) {
-        builder.header(key, headerParams.get(key));
-      }
-
-      for(String key : defaultHeaderMap.keySet()) {
-        if(!headerParams.containsKey(key)) {
-          builder.header(key, defaultHeaderMap.get(key));
-        }
-      }
-      ClientResponse response = null;
-
-      if("GET".equals(method)) {
-        response = (ClientResponse) builder.get(ClientResponse.class);
-      }
-      else if ("POST".equals(method)) {
-        if("application/x-www-form-urlencoded".equals(contentType)) {
-        	StringBuilder formParamBuilder = new StringBuilder();
-
-        	// encode the form params
-        	for(String key : formParams.keySet()) {
-        		String value = formParams.get(key);
-        		if(value != null && !"".equals(value.trim())) {
-        	    	if(formParamBuilder.length() > 0) {
-        		    	formParamBuilder.append("&");
-        			}
-
-        			try {
-        				formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
-        			}
-        			catch (Exception e) {
-        				// move on to next
-        			}
-        	    }
-        	}
-        	response = builder.type(contentType).post(ClientResponse.class, formParamBuilder.toString());
-        }else{
-        	response = builder.type(contentType).post(ClientResponse.class, serialize(body));
-        }
-      }
-      else if ("PUT".equals(method)) {
-        if(body == null)
-          response = builder.put(ClientResponse.class, serialize(body));
         else {
-          if("application/x-www-form-urlencoded".equals(contentType)) {
-            StringBuilder formParamBuilder = new StringBuilder();
-
-            // encode the form params
-            for(String key : formParams.keySet()) {
-              String value = formParams.get(key);
-              if(value != null && !"".equals(value.trim())) {
-                if(formParamBuilder.length() > 0) {
-                  formParamBuilder.append("&");
-                }
-                try {
-                  formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
-                }
-                catch (Exception e) {
-                  // move on to next
-                }
-              }
-            }
-            response = builder.type(contentType).put(ClientResponse.class, formParamBuilder.toString());
-          }
-          else
-            response = builder.type(contentType).put(ClientResponse.class, serialize(body));
+          throw new ApiException(500, "unknown method type " + method);
         }
-      }
-      else if ("DELETE".equals(method)) {
-        if(body == null)
-          response = builder.delete(ClientResponse.class, serialize(body));
-        else
-          response = builder.type(contentType).delete(ClientResponse.class, serialize(body));
-      }
-      else {
-        throw new ApiException(500, "unknown method type " + method);
-      }
-      if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
-        return null;
-      }
-      else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
-        return toByteArray(response.getEntityInputStream());
-      }
-      else {
-        throw new ApiException(
-                  response.getClientResponseStatus().getStatusCode(),
-                  response.getEntity(String.class));
-      }
-  }
-  public static byte[] toByteArray(InputStream input) throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
+          return null;
+        }
+        else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
+          return response;
+        }
+        else {
+          throw new ApiException(
+                    response.getClientResponseStatus().getStatusCode(),
+                    response.getEntity(String.class));
+        }
+    }
 
-		int nRead;
-		byte[] data = new byte[1024 * 4];
+    public static byte[] toByteArray(InputStream input) throws IOException {
+  		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-		while ((nRead = input.read(data, 0, data.length)) != -1) {
-			buffer.write(data, 0, nRead);
-		}
+  		int nRead;
+  		byte[] data = new byte[1024 * 4];
 
-		buffer.flush();
-		return buffer.toByteArray();
-	}
+  		while ((nRead = input.read(data, 0, data.length)) != -1) {
+  			buffer.write(data, 0, nRead);
+  		}
+
+  		buffer.flush();
+  		return buffer.toByteArray();
+  	}
+
   private Client getClient(String host) {
     if(!hostMap.containsKey(host)) {
       Client client = Client.create();
