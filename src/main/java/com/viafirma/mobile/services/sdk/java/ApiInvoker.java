@@ -1,30 +1,27 @@
 package com.viafirma.mobile.services.sdk.java;
 
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.LoggingFilter;
-import com.sun.jersey.api.client.WebResource.Builder;
-
-import javax.ws.rs.core.Response.Status.Family;
-import javax.ws.rs.core.MediaType;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import javax.ws.rs.core.Response.Status.Family;
+
+import com.fasterxml.jackson.databind.JavaType;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.WebResource.Builder;
+import com.sun.jersey.api.client.filter.LoggingFilter;
 import com.sun.jersey.oauth.client.OAuthClientFilter;
 import com.sun.jersey.oauth.signature.OAuthParameters;
 import com.sun.jersey.oauth.signature.OAuthSecrets;
@@ -91,18 +88,30 @@ public class ApiInvoker {
   }
 
   public String invokeJsonAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
-  	  ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
-  	  return (String) response.getEntity(String.class);
-    }
-
-    public byte[] invokeFileAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
-  	  ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
-  	  try {
-  		return toByteArray(response.getEntityInputStream());
-  	} catch (IOException e) {
-  		throw new ApiException(500, "Error getting file");
+  		ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
+  		String resp = response.getEntity(String.class);
+  		if(tokenSecret != null){
+  			validateRFC2104HMAC(resp.getBytes(), tokenSecret, response.getHeaders().get("Signature-Body").get(0));
+  		}else{
+  			validateRFC2104HMAC(resp.getBytes(), consumerSecret, response.getHeaders().get("Signature-Body").get(0));
+  		}
+  		return resp;
   	}
-    }
+
+  	public byte[] invokeFileAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+  		try {
+  			ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
+  			InputStream resp = response.getEntityInputStream();
+  			if(tokenSecret != null){
+  				validateRFC2104HMAC(toByteArray(resp), tokenSecret, response.getHeaders().get("Signature-Body").get(0));
+  			}else{
+  				validateRFC2104HMAC(toByteArray(resp), consumerSecret, response.getHeaders().get("Signature-Body").get(0));
+  			}
+  			return toByteArray(response.getEntityInputStream());
+  		} catch (IOException e) {
+  			throw new ApiException(500, "Error getting file");
+  		}
+  	}
 
     private ClientResponse invokeAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
         Client client = getClient(host);
@@ -237,6 +246,32 @@ public class ApiInvoker {
   		buffer.flush();
   		return buffer.toByteArray();
   	}
+
+  	public void validateRFC2104HMAC(byte[] data, String key, String hash) throws ApiException {
+
+    		try {
+    			SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA1");
+    			Mac mac = Mac.getInstance("HmacSHA1");
+    			mac.init(signingKey);
+    			if(!hash.equals(toHexString(mac.doFinal(data)))){
+    				throw new ApiException(500, "Invalid HmacSHA1");
+    			}
+    		} catch (NoSuchAlgorithmException e) {
+    			throw new ApiException(500, "No Such Algorithm");
+    		} catch (InvalidKeyException e) {
+    			throw new ApiException(500, "Invalid Key");
+    		}
+
+    	}
+
+    	private String toHexString(byte[] bytes) {
+
+    		Formatter formatter = new Formatter();
+    		for (byte b : bytes) {
+    			formatter.format("%02x", b);
+    		}
+    		return formatter.toString();
+    	}
 
   private Client getClient(String host) {
     if(!hostMap.containsKey(host)) {
