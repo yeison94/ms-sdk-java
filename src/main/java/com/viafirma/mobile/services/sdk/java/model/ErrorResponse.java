@@ -1,46 +1,46 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
 public class ErrorResponse {
-  private String id = null;
-  private Integer status = null;
-  private String error = null;
-  private String errorCode = null;
-  public String getId() {
-    return id;
+  private Integer code = null;
+  private String status = null;
+  private String message = null;
+  private String trace = null;
+  public Integer getCode() {
+    return code;
   }
-  public void setId(String id) {
-    this.id = id;
+  public void setCode(Integer code) {
+    this.code = code;
   }
 
-  public Integer getStatus() {
+  public String getStatus() {
     return status;
   }
-  public void setStatus(Integer status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 
-  public String getError() {
-    return error;
+  public String getMessage() {
+    return message;
   }
-  public void setError(String error) {
-    this.error = error;
+  public void setMessage(String message) {
+    this.message = message;
   }
 
-  public String getErrorCode() {
-    return errorCode;
+  public String getTrace() {
+    return trace;
   }
-  public void setErrorCode(String errorCode) {
-    this.errorCode = errorCode;
+  public void setTrace(String trace) {
+    this.trace = trace;
   }
 
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class ErrorResponse {\n");
-    sb.append("  id: ").append(id).append("\n");
+    sb.append("  code: ").append(code).append("\n");
     sb.append("  status: ").append(status).append("\n");
-    sb.append("  error: ").append(error).append("\n");
-    sb.append("  errorCode: ").append(errorCode).append("\n");
+    sb.append("  message: ").append(message).append("\n");
+    sb.append("  trace: ").append(trace).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
