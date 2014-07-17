@@ -1,20 +1,17 @@
 package com.viafirma.mobile.services.sdk.java.api;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.viafirma.mobile.services.sdk.java.ApiException;
 import com.viafirma.mobile.services.sdk.java.ApiInvoker;
-import com.viafirma.mobile.services.sdk.java.model.Device;
-import com.viafirma.mobile.services.sdk.java.model.Evidence;
-import com.viafirma.mobile.services.sdk.java.model.Form;
-import com.viafirma.mobile.services.sdk.java.model.Message;
-import com.viafirma.mobile.services.sdk.java.model.Notification;
+import java.io.File;
 import com.viafirma.mobile.services.sdk.java.model.Policy;
 import com.viafirma.mobile.services.sdk.java.model.Token;
 import com.viafirma.mobile.services.sdk.java.model.User;
+import com.viafirma.mobile.services.sdk.java.model.Evidence;
+import com.viafirma.mobile.services.sdk.java.model.Message;
+import com.viafirma.mobile.services.sdk.java.model.Device;
+import com.viafirma.mobile.services.sdk.java.model.Form;
+import com.viafirma.mobile.services.sdk.java.model.Notification;
+import java.util.*;
 
 public class V1Api {
   String basePath = "/";
@@ -191,7 +188,6 @@ public class V1Api {
 
       byte[] response = apiInvoker.invokeFileAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       return response;
-    
   }
   public Evidence sendEvidence (String messageCode, String policyCode, String evidenceCode, File body, String metadata, String fingerID, String algorithmic) throws ApiException {
     // create path and map variables
@@ -365,13 +361,13 @@ public class V1Api {
       }
     }
   }
-  public List<Notification> findNotificationsByToken (String token) throws ApiException {
+  public List<Notification> findNotificationsByToken (String push_token) throws ApiException {
     // verify required params are set
-    if(token == null ) {
+    if(push_token == null ) {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/v1/notifications/token/{token}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString()));
+    String path = "/v1/notifications/token/{push_token}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "push_token" + "\\}", apiInvoker.escapeString(push_token.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -399,13 +395,13 @@ public class V1Api {
       }
     }
   }
-  public List<Notification> findNotificationsByTokenStatus (String token, String status) throws ApiException {
+  public List<Notification> findNotificationsByTokenStatus (String push_token, String status) throws ApiException {
     // verify required params are set
-    if(token == null || status == null ) {
+    if(push_token == null || status == null ) {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/v1/notifications/token/{token}/status/{status}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "token" + "\\}", apiInvoker.escapeString(token.toString())).replaceAll("\\{" + "status" + "\\}", apiInvoker.escapeString(status.toString()));
+    String path = "/v1/notifications/token/{push_token}/status/{status}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "push_token" + "\\}", apiInvoker.escapeString(push_token.toString())).replaceAll("\\{" + "status" + "\\}", apiInvoker.escapeString(status.toString()));
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
@@ -433,7 +429,7 @@ public class V1Api {
       }
     }
   }
-  public List<Notification> findNotificationsByCode (String code) throws ApiException {
+  public Notification findNotificationsByCode (String code) throws ApiException {
     // verify required params are set
     if(code == null ) {
        throw new ApiException(400, "missing required params");
@@ -454,7 +450,7 @@ public class V1Api {
     try {
       String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
       if(response != null){
-        return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
+        return (Notification) ApiInvoker.deserialize(response, "", Notification.class);
       }else {
         return null;
       }

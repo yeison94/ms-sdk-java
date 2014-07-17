@@ -37,19 +37,21 @@ import com.viafirma.mobile.services.sdk.java.model.User;
 public class ApiTest {
 
 	private static V1Api api;
-	private static String template;
-	private static String userCode = "inyenia";
-	private static String userPass = "12345";
+	private static String template = "test_docx";
+	private static String userCode = "";
+	private static String userPass = "";
+	private static String deviceCode = "";
 	private static String urlApi = "http://127.0.0.1:8080/mobile-services/api";
-	private static String consumerKey = "com.viafirma.mobile.ios.documents";
-	private static String consumerSecret = "5816437553";
+	private static String consumerKey = "";
+	private static String consumerSecret = "";
 
 	private static String deviceIdentifier = "D28A352B-6FA6-4A8B-A3FB-82171821300C";
-	private static String messageCode = "1404745416603R698";
-	private static String documentCode = "1404745416603R698D905";
-	private static String policyCode = "";
-	private static String evidenceCode = "";
-	private static String filePath = "";
+	private static String messageCode = "1404802809751R929";
+	private static String documentCode = "1404802809751R929D603";
+	private static String policyCode = "1404802809751R929P514";
+	private static String evidenceCode = "1404802809751R929E675";
+	private static String filePath = "/tmp/test.jpg";
+	private static String notificationCode = "1405022791063";
 
 	private static Device device;
 	
@@ -70,15 +72,18 @@ public class ApiTest {
 			api.setTokenSecret(token.getOauth_token_secret());
 		} catch (ApiException e) {
 			Assert.assertEquals(e.getCode(), 401);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Test
 	public void t01RegisterDevice() {
 		try {
-			Device device = new Device();
+			device = new Device();
 			device.setAppCode(consumerKey);
-			device.setCode("iphone_test");
+			device.setUserCode(userCode);
+			device.setCode(deviceCode);
 			device.setDescription("Device for JUnit test");
 			device.setLocale("es_ES");
 			device.setType("IOS");
@@ -115,7 +120,7 @@ public class ApiTest {
 			Message message = new Message();
 			
 			Document document = new Document();
-			document.setTemplateCode("test_docx");
+			document.setTemplateCode(template);
 			document.setTemplateType("docx");
 			document.setItems(new ArrayList<Item>());
 			
@@ -225,32 +230,64 @@ public class ApiTest {
 			Assert.assertNotNull(forms);
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Test
-	public void t09() {
-
+	public void t09SendNotification() {
+		try {
+			device = api.findDeviceByIdentifier(deviceIdentifier);
+			Notification notification = new Notification();
+			notification.setText("Example Notification");
+			notification.setDevices(new ArrayList<Device>());
+			notification.getDevices().add(device);
+			String code = api.sendNotification(notification);
+			Assert.assertNotNull(code);
+		} catch (ApiException e) {
+			Assert.assertNotNull(testApiException(e));
+		}
 	}
 
 	@Test
-	public void t10() {
-
+	public void t10FindNotificationsByTokenStatus() {
+		try {
+			device = api.findDeviceByIdentifier(deviceIdentifier);
+			List<Notification> notifications = api.findNotificationsByTokenStatus(device.getToken(), "DISPATCHED");
+			Assert.assertNotNull(notifications);
+		} catch (ApiException e) {
+			Assert.assertNotNull(testApiException(e));
+		}
 	}
 
 	@Test
-	public void t11() {
-
+	public void t11FindNotificationsByToken() {
+		try {
+			List<Notification> notifications = api.findNotificationsByToken(deviceIdentifier);
+			Assert.assertNotNull(notifications);
+		} catch (ApiException e) {
+			Assert.assertNotNull(testApiException(e));
+		}
 	}
 
 	@Test
-	public void t12() {
-
+	public void t12FindNotificationsByCode() {
+		try {
+			Notification notification = api.findNotificationsByCode(notificationCode);
+			Assert.assertNotNull(notification);
+		} catch (ApiException e) {
+			Assert.assertNotNull(testApiException(e));
+		}
 	}
 
 	@Test
-	public void t13() {
-
+	public void t13ChangeNotificationStatus() {
+		try {
+			api.changeNotificationStatus(notificationCode, "READ");
+		} catch (ApiException e) {
+			Assert.assertNotNull(testApiException(e));
+		}
 	}
 
 	@Test
