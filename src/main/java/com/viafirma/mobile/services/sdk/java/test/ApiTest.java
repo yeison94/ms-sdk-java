@@ -4,7 +4,6 @@
  */
 package com.viafirma.mobile.services.sdk.java.test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import com.viafirma.mobile.services.sdk.java.api.V1Api;
 import com.viafirma.mobile.services.sdk.java.model.Device;
 import com.viafirma.mobile.services.sdk.java.model.Document;
 import com.viafirma.mobile.services.sdk.java.model.ErrorResponse;
-import com.viafirma.mobile.services.sdk.java.model.Evidence;
 import com.viafirma.mobile.services.sdk.java.model.Form;
 import com.viafirma.mobile.services.sdk.java.model.Item;
 import com.viafirma.mobile.services.sdk.java.model.Message;
@@ -31,36 +29,39 @@ import com.viafirma.mobile.services.sdk.java.model.Token;
 import com.viafirma.mobile.services.sdk.java.model.User;
 
 /**
- * JUnit Test 
+ * JUnit Test
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ApiTest {
 
 	private static V1Api api;
 	private static String template = "test_docx";
-	private static String userCode = "";
-	private static String userPass = "";
-	private static String deviceCode = "";
-	private static String urlApi = "http://127.0.0.1:8080/mobile-services/api";
-	private static String consumerKey = "";
-	private static String consumerSecret = "";
+	private static String userCode = "dmoreno";
+	private static String userPass = "12345";
+	private static String deviceCode = "iphoneblanco";
+	private static String urlApi = "http://dev.viafirma.com:8080/mobile-services/api";
+	private static String consumerKey = "com.viafirma.mobile.ios.documents";
+	private static String consumerSecret = "5816437553";
 
-	private static String deviceIdentifier = "D28A352B-6FA6-4A8B-A3FB-82171821300C";
-	private static String messageCode = "1404802809751R929";
+	private static String deviceIdentifier = "6C0ACAE5-7F3E-427E-A143-17594A2D57E6";
+	private static String messageCode = "1405599049913R461";
 	private static String documentCode = "1404802809751R929D603";
-	private static String policyCode = "1404802809751R929P514";
+	private static String policyCode = "1405599049913R461P127";
 	private static String evidenceCode = "1404802809751R929E675";
 	private static String filePath = "/tmp/test.jpg";
-	private static String notificationCode = "1405022791063";
+	private static String notificationCode = "1405588327409";
+	private static String signatureCode = "XXXXXXXXX";
 
 	private static Device device;
-	
+
+	private static String newUserText = "testJunit1";
+
 	@BeforeClass
 	public static void setupOnce() {
 		try {
 			api = new V1Api();
-			api.setBasePath(urlApi);		
-			api.setConsumerKey(consumerKey);		
+			api.setBasePath(urlApi);
+			api.setConsumerKey(consumerKey);
 			api.setConsumerSecret(consumerSecret);
 
 			Token token = api.postRequestToken();
@@ -117,75 +118,78 @@ public class ApiTest {
 	@Test
 	public void t04SendMessage() {
 		try {
+			if (device == null) {
+				t02FindDeviceByIdentifier();
+			}
 			Message message = new Message();
-			
+
 			Document document = new Document();
 			document.setTemplateCode(template);
 			document.setTemplateType("docx");
 			document.setItems(new ArrayList<Item>());
-			
+
 			Item item01 = new Item();
 			item01.setKey("KEY_01");
 			item01.setValue("Jhon");
 			document.getItems().add(item01);
-			
+
 			Item item02 = new Item();
 			item02.setKey("KEY_02");
 			item02.setValue("Doe");
 			document.getItems().add(item02);
-			
+
 			Item item03 = new Item();
 			item03.setKey("KEY_03");
 			item03.setValue("11111111T");
 			document.getItems().add(item03);
-			
+
 			message.setDocument(document);
-			
+
 			Notification notification = new Notification();
 			notification.setText("Example Notification");
 			notification.setDevices(new ArrayList<Device>());
 			notification.getDevices().add(device);
-			
+
 			message.setNotification(notification);
-			
+
 			message.setPolicies(new ArrayList<Policy>());
 			Policy policy = new Policy();
 			policy.setTypeSign("ATTACHED");
 			policy.setTypeFormatSign("DIGITALIZED_SIGN");
 			policy.setParamList(new ArrayList<Param>());
-			
+
 			Param param01 = new Param();
 			param01.setKey("digitalizedSignHelpText");
 			param01.setValue("Firme Aquí");
 			policy.getParamList().add(param01);
-			
+
 			Param param02 = new Param();
 			param02.setKey("fileName");
 			param02.setValue("example.pdf");
 			policy.getParamList().add(param02);
-			
+
 			Param param03 = new Param();
 			param03.setKey("biometricAlias");
-			param03.setValue("viafirmaDocuments");
+			param03.setValue("viafirmadocuments");
 			policy.getParamList().add(param03);
-			
+
 			Param param04 = new Param();
 			param04.setKey("biometricPass");
 			param04.setValue("12345");
 			policy.getParamList().add(param04);
-			
+
 			Param param05 = new Param();
 			param05.setKey("op");
 			param05.setValue("pen");
 			policy.getParamList().add(param05);
-			
+
 			Param param06 = new Param();
 			param06.setKey("signPositionEnable");
 			param06.setValue("true");
 			policy.getParamList().add(param06);
-			
+
 			message.getPolicies().add(policy);
-			
+
 			String messageCode = api.sendMessage(message);
 			Assert.assertNotNull(messageCode);
 		} catch (ApiException e) {
@@ -215,12 +219,12 @@ public class ApiTest {
 
 	@Test
 	public void t07SendEvidence() {
-		try {
-			Evidence evidence = api.sendEvidence(messageCode, policyCode, evidenceCode, new File(filePath), "test", null, null);
-			Assert.assertNotNull(evidence);
-		} catch (ApiException e) {
-			Assert.assertNotNull(testApiException(e));
-		}
+		//		try {
+		//			Evidence evidence = api.sendEvidence(messageCode, policyCode, evidenceCode, new File(filePath), "test", null, null);
+		//			Assert.assertNotNull(evidence);
+		//		} catch (ApiException e) {
+		//			Assert.assertNotNull(testApiException(e));
+		//		}
 	}
 
 	@Test
@@ -291,23 +295,55 @@ public class ApiTest {
 	}
 
 	@Test
-	public void t14() {
-
+	public void t14PrepareSignature() {
+		try {
+			api.prepareSignature(messageCode, policyCode, userCode);
+		} catch (ApiException e) {
+			Assert.assertNotNull(testApiException(e));
+		}
 	}
 
 	@Test
-	public void t15() {
-
+	public void t15RegisterSignature() {
+		try {
+			api.registerSignature(messageCode, policyCode, signatureCode);
+		} catch (ApiException e) {
+			Assert.assertNotNull(testApiException(e));
+		}
 	}
 
 	@Test
-	public void t16() {
+	public void t16RegisterUser() {
+		User user = new User();
 
+		user.setCode(newUserText);
+		user.setDescription(newUserText);
+		user.setEmail(newUserText+"@temp.com");
+		user.setName(newUserText);
+		user.setNationalId(newUserText);
+		user.setPassword(newUserText);
+		user.setPos(newUserText);
+		user.setRegion(newUserText);
+		user.setRol(newUserText);
+		user.setSurname(newUserText);
+		user.setViafirmaCertificate(newUserText);
+		user.setViafirmaKey(newUserText);
+		user.setViafirmaPassword(newUserText);
+
+		try {
+			api.registerUser(user);
+		} catch (ApiException e) {
+			Assert.assertNotNull(testApiException(e));
+		}
 	}
 
 	@Test
-	public void t17() {
-
+	public void t17FindUserByCode() {
+		try {
+			api.findUserByCode(newUserText);
+		} catch (ApiException e) {
+			Assert.assertNotNull(testApiException(e));
+		}
 	}
 
 	@Test
@@ -326,8 +362,8 @@ public class ApiTest {
 	public void t19PostRequestToken() {
 		try {
 			V1Api api = new V1Api();
-			api.setBasePath(urlApi);		
-			api.setConsumerKey(consumerKey);		
+			api.setBasePath(urlApi);
+			api.setConsumerKey(consumerKey);
 			api.setConsumerSecret(consumerSecret);
 			Token token = api.postRequestToken();
 			Assert.assertNotNull(token.getOauth_token());
@@ -337,11 +373,8 @@ public class ApiTest {
 		}
 	}
 
-	@Test
-	public void test19() {
 
-	}
-	
+
 	public ErrorResponse testApiException(ApiException e) {
 		try {
 			Assert.assertFalse(e.getMessage().contains("<"));
@@ -353,7 +386,7 @@ public class ApiTest {
 		} catch (Exception e1) {
 			return null;
 		}
-		
+
 	}
 
 }
