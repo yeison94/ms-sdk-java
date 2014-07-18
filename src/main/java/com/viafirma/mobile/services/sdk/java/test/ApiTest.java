@@ -36,14 +36,14 @@ public class ApiTest {
 
 	private static V1Api api;
 	private static String template = "test_docx";
-	private static String userCode = "dmoreno";
-	private static String userPass = "12345";
+	private static String userCode = "XXXXXX";
+	private static String userPass = "XXXXXX";
 	private static String deviceCode = "iphoneblanco";
-	private static String urlApi = "http://dev.viafirma.com:8080/mobile-services/api";
-	private static String consumerKey = "com.viafirma.mobile.ios.documents";
-	private static String consumerSecret = "5816437553";
+	private static String urlApi = "http://127.0.0.1:8080/mobile-services/api";
+	private static String consumerKey = "XXXXXXXXXXXXXXXXXXX";
+	private static String consumerSecret = "XXXXXXXXXXXXX";
 
-	private static String deviceIdentifier = "6C0ACAE5-7F3E-427E-A143-17594A2D57E6";
+	private static String deviceIdentifier = "XXXXXXXXXXXXXXXXXXXXXXXXX";
 	private static String messageCode = "1405599049913R461";
 	private static String documentCode = "1404802809751R929D603";
 	private static String policyCode = "1405599049913R461P127";
@@ -64,11 +64,11 @@ public class ApiTest {
 			api.setConsumerKey(consumerKey);
 			api.setConsumerSecret(consumerSecret);
 
-			Token token = api.postRequestToken();
+			Token token = api.requestToken();
 			api.setToken(token.getOauth_token());
 			api.setTokenSecret(token.getOauth_token_secret());
 
-			token = api.postAccessToken(userCode, userPass, "client_auth");
+			token = api.accessToken(userCode, userPass, "client_auth");
 			api.setToken(token.getOauth_token());
 			api.setTokenSecret(token.getOauth_token_secret());
 		} catch (ApiException e) {
@@ -365,7 +365,7 @@ public class ApiTest {
 			api.setBasePath(urlApi);
 			api.setConsumerKey(consumerKey);
 			api.setConsumerSecret(consumerSecret);
-			Token token = api.postRequestToken();
+			Token token = api.requestToken();
 			Assert.assertNotNull(token.getOauth_token());
 			Assert.assertNotNull(token.getOauth_token_secret());
 		} catch (ApiException e) {
