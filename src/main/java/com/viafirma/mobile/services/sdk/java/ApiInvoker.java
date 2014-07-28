@@ -103,10 +103,13 @@ public class ApiInvoker {
 		try {
 			ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
 			byte[] resp = toByteArray(response.getEntityInputStream());
+			if(response.getHeaders().get("Signature-Body")!=null)
+			{
 			if(tokenSecret != null){
 				validateRFC2104HMAC(resp, tokenSecret, response.getHeaders().get("Signature-Body").get(0));
 			}else{
 				validateRFC2104HMAC(resp, consumerSecret, response.getHeaders().get("Signature-Body").get(0));
+			}
 			}
 			return resp;
 		} catch (IOException e) {
