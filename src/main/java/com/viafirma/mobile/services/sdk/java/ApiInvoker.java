@@ -88,11 +88,14 @@ public class ApiInvoker {
 	public String invokeJsonAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
 		ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
 		String result = response.getEntity(String.class);
-		if(tokenSecret != null){
-			validateRFC2104HMAC(result.getBytes(), tokenSecret, response.getHeaders().get("Signature-Body").get(0));
-		}else{
-			validateRFC2104HMAC(result.getBytes(), consumerSecret, response.getHeaders().get("Signature-Body").get(0));
-		}
+			if(response.getHeaders().get("Signature-Body")!=null)
+			{
+				if(tokenSecret != null){
+					validateRFC2104HMAC(result.getBytes(), tokenSecret, response.getHeaders().get("Signature-Body").get(0));
+				}else{
+					validateRFC2104HMAC(result.getBytes(), consumerSecret, response.getHeaders().get("Signature-Body").get(0));
+				}
+			}
 		return result;
 	}
 
