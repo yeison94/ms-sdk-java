@@ -5,11 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.Response.Status.Family;
 
 import com.fasterxml.jackson.databind.JavaType;
@@ -88,35 +92,46 @@ public class ApiInvoker {
 	public String invokeJsonAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
 		ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
 		String result = response.getEntity(String.class);
-			if(response.getHeaders().get("Signature-Body")!=null)
-			{
+		if(hasValidSignature(response))
+		{
 				if(tokenSecret != null){
 					validateRFC2104HMAC(result.getBytes(), tokenSecret, response.getHeaders().get("Signature-Body").get(0));
 				}else{
 					validateRFC2104HMAC(result.getBytes(), consumerSecret, response.getHeaders().get("Signature-Body").get(0));
 				}
-			}
+		}
 		return result;
 	}
-
+	
 	public byte[] invokeFileAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
 		try {
-			ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
-			byte[] resp = toByteArray(response.getEntityInputStream());
-			if(response.getHeaders().get("Signature-Body")!=null)
-			{
-			if(tokenSecret != null){
-				validateRFC2104HMAC(resp, tokenSecret, response.getHeaders().get("Signature-Body").get(0));
-			}else{
-				validateRFC2104HMAC(resp, consumerSecret, response.getHeaders().get("Signature-Body").get(0));
-			}
+			ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);			
+			byte[] resp = toByteArray(response.getEntityInputStream());			
+				if(hasValidSignature(response))
+				{	
+				if(tokenSecret != null){
+					validateRFC2104HMAC(resp, tokenSecret, response.getHeaders().get("Signature-Body").get(0));
+				}else{
+					validateRFC2104HMAC(resp, consumerSecret, response.getHeaders().get("Signature-Body").get(0));
+				}
 			}
 			return resp;
 		} catch (IOException e) {
 			throw new ApiException(500, "Error getting file");
 		}
 	}
+	/**
+	 * Check if this response contains Signature-Body header and if exists, is not empty
+	 * @param response 
+	 * @return true if "Signature-Body" header exists and is not empty, false otherwise
+	 */
+	public boolean hasValidSignature(ClientResponse response)
+	{
+		List<String> signatureBodyHeader=response.getHeaders().get("Signature-Body");
+		return signatureBodyHeader!=null && signatureBodyHeader.size()==1 && !signatureBodyHeader.get(0).trim().equals("");	
+	}
 
+	
 	private ClientResponse invokeAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
 		Client client = getClient(host);
 
@@ -255,18 +270,18 @@ public class ApiInvoker {
 
 	public void validateRFC2104HMAC(byte[] data, String key, String hash) throws ApiException {
 
-		//    		try {
-		//    			SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA1");
-		//    			Mac mac = Mac.getInstance("HmacSHA1");
-		//    			mac.init(signingKey);
-		//    			if(!hash.equals(toHexString(mac.doFinal(data)))){
-		//    				throw new ApiException(500, "Invalid HmacSHA1");
-		//    			}
-		//    		} catch (NoSuchAlgorithmException e) {
-		//    			throw new ApiException(500, "No Such Algorithm");
-		//    		} catch (InvalidKeyException e) {
-		//    			throw new ApiException(500, "Invalid Key");
-		//    		}
+		    		try {
+		    			SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA1");
+		    			Mac mac = Mac.getInstance("HmacSHA1");
+		    			mac.init(signingKey);
+		    			if(!hash.equals(toHexString(mac.doFinal(data)))){
+		    				throw new ApiException(500, "Invalid HmacSHA1");
+		    			}
+		    		} catch (NoSuchAlgorithmException e) {
+		    			throw new ApiException(500, "No Such Algorithm");
+		    		} catch (InvalidKeyException e) {
+		    			throw new ApiException(500, "Invalid Key");
+		    		}
 
 	}
 
