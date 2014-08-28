@@ -96,10 +96,15 @@ public class ApiInvoker {
 	result = (String) ApiInvoker.deserialize(result, "", String.class);
 	if(hasValidSignature(response))
 	{
-	    if(tokenSecret != null){
-		validateRFC2104HMAC(result.getBytes(), tokenSecret, response.getHeaders().get("Signature-Body").get(0));
-	    }else{
-		validateRFC2104HMAC(result.getBytes(), consumerSecret, response.getHeaders().get("Signature-Body").get(0));
+	    try {
+
+		if(tokenSecret != null){
+		    validateRFC2104HMAC(result.getBytes("UTF-8"), tokenSecret, response.getHeaders().get("Signature-Body").get(0));
+		}else{
+		    validateRFC2104HMAC(result.getBytes("UTF-8"), consumerSecret, response.getHeaders().get("Signature-Body").get(0));
+		}
+	    } catch (UnsupportedEncodingException e) {
+		throw new ApiException(500, "Unsupported encoding");
 	    }
 	}
 	return result;
@@ -294,10 +299,10 @@ public class ApiInvoker {
 	Mac mac = Mac.getInstance("HmacSHA1");
 	mac.init(signingKey);
 	String signature = toHexString(mac.doFinal(data));
-//	System.out.println("KEY: " + key);
-//	System.out.println("Signature: " + signature);
-//	System.out.println("DATA: " + data.length);
-//	System.out.println("STRING: " + new String(data));
+	//	System.out.println("KEY: " + key);
+	//	System.out.println("Signature: " + signature);
+	//	System.out.println("DATA: " + data.length);
+	//	System.out.println("STRING: " + new String(data));
 	return signature;
     }
 
