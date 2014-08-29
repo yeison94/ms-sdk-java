@@ -282,7 +282,7 @@ public class ApiInvoker {
 	    if(!hash.equals(signature)){
 		throw new ApiException(500, "Invalid HmacSHA1");
 	    }
-	    System.out.println("Validate response signature OK");
+	    // System.out.println("Validate response signature OK");
 	} catch (NoSuchAlgorithmException e) {
 	    throw new ApiException(500, "No Such Algorithm");
 	} catch (InvalidKeyException e) {
