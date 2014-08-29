@@ -1,4 +1,11 @@
 
+2.0.1.1 / 2014-08-29
+==================
+
+  * refs #17682 force validate response signature in UTF-8
+  * refs #17682 version 2.0.1.1
+  * refs #17682 fix validate response signature in ISO 8859-1
+
 2.0.1 / 2014-08-26
 ==================
 
