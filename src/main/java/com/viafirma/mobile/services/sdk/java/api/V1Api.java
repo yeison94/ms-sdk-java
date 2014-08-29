@@ -26,6 +26,7 @@ public class V1Api {
 	String user = null;
 	String password = null;
 	String auth_mode = null;
+	Boolean validateResponse = false;
 
 	ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
@@ -104,6 +105,14 @@ public class V1Api {
 	public void setAuth_mode(String auth_mode) {
 		this.auth_mode = auth_mode;
 	}
+	
+	public Boolean getValidateResponse() {
+	    return validateResponse;
+	}
+
+	public void setValidateResponse(Boolean validateResponse) {
+	    this.validateResponse = validateResponse;
+	}
 
 	public Device registerDevice (Device body) throws ApiException {
 		// verify required params are set
@@ -124,7 +133,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (Device) ApiInvoker.deserialize(response, "", Device.class);
 			}else {
@@ -192,7 +201,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (Device) ApiInvoker.deserialize(response, "", Device.class);
 			}else {
@@ -237,7 +246,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (List<Device>) ApiInvoker.deserialize(response, "Array", Device.class);
 			}else {
@@ -282,7 +291,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 		byte[] response = null;
 		try {
-			response = apiInvoker.invokeFileAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			response = apiInvoker.invokeFileAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 		} catch (ApiException ex) {
 			if(ex.getCode() == 404) {
 				return null;
@@ -325,7 +334,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (Evidence) ApiInvoker.deserialize(response, "", Evidence.class);
 			}else {
@@ -370,7 +379,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (List<Form>) ApiInvoker.deserialize(response, "Array", Form.class);
 			}else {
@@ -415,7 +424,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (String) ApiInvoker.deserialize(response, "", String.class);
 			}else {
@@ -460,7 +469,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (Message) ApiInvoker.deserialize(response, "", Message.class);
 			}else {
@@ -505,7 +514,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (String) ApiInvoker.deserialize(response, "", String.class);
 			}else {
@@ -550,7 +559,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
 			}else {
@@ -595,7 +604,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
 			}else {
@@ -640,7 +649,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (Notification) ApiInvoker.deserialize(response, "", Notification.class);
 			}else {
@@ -685,7 +694,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "PUT", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "PUT", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return ;
 			}else {
@@ -733,7 +742,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
 			}else {
@@ -781,7 +790,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
 			}else {
@@ -826,7 +835,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return ;
 			}else {
@@ -871,7 +880,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (User) ApiInvoker.deserialize(response, "", User.class);
 			}else {
@@ -912,7 +921,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (Token) ApiInvoker.deserialize(response, "", Token.class);
 			}else {
@@ -954,7 +963,7 @@ public class V1Api {
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
 		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType);
+			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType, validateResponse);
 			if(response != null){
 				return (Token) ApiInvoker.deserialize(response, "", Token.class);
 			}else {

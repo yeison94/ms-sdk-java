@@ -90,11 +90,11 @@ public class ApiInvoker {
 	}
     }
 
-    public String invokeJsonAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+    public String invokeJsonAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, Boolean validateResponse) throws ApiException {
 	ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);
 	String result = response.getEntity(String.class);
 	result = (String) ApiInvoker.deserialize(result, "", String.class);
-	if(hasValidSignature(response))
+	if(validateResponse && hasValidSignature(response))
 	{
 	    try {
 
@@ -110,11 +110,11 @@ public class ApiInvoker {
 	return result;
     }
 
-    public byte[] invokeFileAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+    public byte[] invokeFileAPI(String host, String consumerKey, String consumerSecret, String token, String tokenSecret, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, Boolean validateResponse) throws ApiException {
 	try {
 	    ClientResponse response = invokeAPI(host, consumerKey, consumerSecret, token, tokenSecret, path, method, queryParams, body, headerParams, formParams, contentType);			
 	    byte[] resp = toByteArray(response.getEntityInputStream());			
-	    if(hasValidSignature(response))
+	    if(validateResponse && hasValidSignature(response))
 	    {	
 		if(tokenSecret != null){
 		    validateRFC2104HMAC(resp, tokenSecret, response.getHeaders().get("Signature-Body").get(0));
@@ -282,6 +282,7 @@ public class ApiInvoker {
 	    if(!hash.equals(signature)){
 		throw new ApiException(500, "Invalid HmacSHA1");
 	    }
+	    System.out.println("Validate response signature OK");
 	} catch (NoSuchAlgorithmException e) {
 	    throw new ApiException(500, "No Such Algorithm");
 	} catch (InvalidKeyException e) {
