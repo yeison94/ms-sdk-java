@@ -35,42 +35,46 @@ import com.viafirma.mobile.services.sdk.java.model.User;
 public class ApiTest {
 
 	private static V1Api api;
-	private static String template = "test_docx";
-	private static String userCode = "XXXXXX";
-	private static String userPass = "XXXXXX";
-	private static String deviceCode = "iphoneblanco";
-	private static String urlApi = "http://127.0.0.1:8080/mobile-services/api";
-	private static String consumerKey = "XXXXXXXXXXXXXXXXXXX";
-	private static String consumerSecret = "XXXXXXXXXXXXX";
+	private static final String TEMPLATE_CODE = "001_example";
+	private static final String TEMPLATE_TYPE = "docx";
+	
+	private static final String USER_CODE = "XXXXXXXXXXXXX";
+	private static final String USER_PASSWORD = "XXXXXXXXXXXXX";
+	
+	private static final String DEVICE_CODE = "iphoneTest";
+	private static final String DEVICE_DESCRIPTION = "Device for JUnit test";
+	private static final String DEVICE_LOCALE = "es_ES";
+	private static final String DEVICE_TYPE = "IOS";
+	private static final String DEVICE_IDENTIFIER = "XXXXXXXXXXXXX";
+	
+	private static final String API_URL = "http://127.0.0.1:8080/mobile-services/api";
+	private static final String CONSUMER_KEY = "XXXXXXXXXXXXX";
+	private static final String CONSUMER_SECRET = "XXXXXXXXXXXXX";
+	private static final String AUTH_MODE = "client_auth";
+	
+	private static final String MESSAGE_CODE = "XXXXXXXXXXXXX";
+	private static final String DOCUMENT_CODE = "XXXXXXXXXXXXX";
+	private static final String POLICY_CODE = "XXXXXXXXXXXXX";
+	private static final String NOTIFICATION_CODE = "XXXXXXXXXXXXX";
+	private static final String NOTIFICATION_TOKEN = "XXXXXXXXXXXXX";
+	private static final String SIGNATURE_CODE = "XXXXXXXXXXXXX";
 
-	private static String deviceIdentifier = "XXXXXXXXXXXXXXXXXXXXXXXXX";
-	private static String messageCode = "1405599049913R461";
-	private static String documentCode = "1404802809751R929D603";
-	private static String policyCode = "1405599049913R461P127";
-	private static String evidenceCode = "1404802809751R929E675";
-	private static String filePath = "/tmp/test.jpg";
-	private static String notificationCode = "1405588327409";
-	private static String signatureCode = "XXXXXXXXX";
-
-	private static Device device;
-
-	private static String newUserText = "testJunit1";
-
+	private static final String newUserText = "testJunit";
+	
 	@BeforeClass
 	public static void setupOnce() {
 		try {
 			api = new V1Api();
-			api.setBasePath(urlApi);
-			api.setConsumerKey(consumerKey);
-			api.setConsumerSecret(consumerSecret);
+			api.setBasePath(API_URL);
+			api.setConsumerKey(CONSUMER_KEY);
+			api.setConsumerSecret(CONSUMER_SECRET);
+			
+			api.setUser(USER_CODE);
+			api.setPassword(USER_PASSWORD);
+			api.setAuth_mode(AUTH_MODE);
+			
+			api.generateNewToken();
 
-			Token token = api.requestToken();
-			api.setToken(token.getOauth_token());
-			api.setTokenSecret(token.getOauth_token_secret());
-
-			token = api.accessToken(userCode, userPass, "client_auth");
-			api.setToken(token.getOauth_token());
-			api.setTokenSecret(token.getOauth_token_secret());
 		} catch (ApiException e) {
 			Assert.assertEquals(e.getCode(), 401);
 		} catch (Exception e) {
@@ -81,13 +85,14 @@ public class ApiTest {
 	@Test
 	public void t01RegisterDevice() {
 		try {
-			device = new Device();
-			device.setAppCode(consumerKey);
-			device.setUserCode(userCode);
-			device.setCode(deviceCode);
-			device.setDescription("Device for JUnit test");
-			device.setLocale("es_ES");
-			device.setType("IOS");
+			Device device = new Device();
+			device.setAppCode(CONSUMER_KEY);
+			device.setUserCode(USER_CODE);
+			device.setCode(DEVICE_CODE);
+			device.setDescription(DEVICE_DESCRIPTION);
+			device.setLocale(DEVICE_LOCALE);
+			device.setType(DEVICE_TYPE);
+			device.setUniqueIdentifier(DEVICE_TYPE);
 			device = api.registerDevice(device);
 			Assert.assertNotNull(device);
 		} catch (ApiException e) {
@@ -98,7 +103,7 @@ public class ApiTest {
 	@Test
 	public void t02FindDeviceByIdentifier() {
 		try {
-			device = api.findDeviceByIdentifier(deviceIdentifier);
+			Device device = api.findDeviceByIdentifier(DEVICE_IDENTIFIER);
 			Assert.assertNotNull(device);
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
@@ -108,7 +113,7 @@ public class ApiTest {
 	@Test
 	public void t03FindDeviceByUser() {
 		try {
-			List<Device> devices = api.findDeviceByUser(userCode);
+			List<Device> devices = api.findDeviceByUser(USER_CODE);
 			Assert.assertNotNull(devices);
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
@@ -118,14 +123,13 @@ public class ApiTest {
 	@Test
 	public void t04SendMessage() {
 		try {
-			if (device == null) {
-				t02FindDeviceByIdentifier();
-			}
+			Device device = api.findDeviceByIdentifier(DEVICE_IDENTIFIER);
+			
 			Message message = new Message();
 
 			Document document = new Document();
-			document.setTemplateCode(template);
-			document.setTemplateType("docx");
+			document.setTemplateCode(TEMPLATE_CODE);
+			document.setTemplateType(TEMPLATE_TYPE);
 			document.setItems(new ArrayList<Item>());
 
 			Item item01 = new Item();
@@ -146,7 +150,7 @@ public class ApiTest {
 			message.setDocument(document);
 
 			Notification notification = new Notification();
-			notification.setText("Example Notification");
+			notification.setText("Notification Example");
 			notification.setDevices(new ArrayList<Device>());
 			notification.getDevices().add(device);
 
@@ -200,7 +204,7 @@ public class ApiTest {
 	@Test
 	public void t05GetMessageByCode() {
 		try {
-			Message message = api.getMessageByCode(messageCode);
+			Message message = api.getMessageByCode(MESSAGE_CODE);
 			Assert.assertNotNull(message);
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
@@ -210,7 +214,7 @@ public class ApiTest {
 	@Test
 	public void t06GetDocument() {
 		try {
-			byte[] result = api.getDocument("PREVIEW", messageCode, documentCode);
+			byte[] result = api.getDocument("PREVIEW", MESSAGE_CODE, DOCUMENT_CODE);
 			Assert.assertNotNull(result);
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
@@ -218,20 +222,11 @@ public class ApiTest {
 	}
 
 	@Test
-	public void t07SendEvidence() {
-		//		try {
-		//			Evidence evidence = api.sendEvidence(messageCode, policyCode, evidenceCode, new File(filePath), "test", null, null);
-		//			Assert.assertNotNull(evidence);
-		//		} catch (ApiException e) {
-		//			Assert.assertNotNull(testApiException(e));
-		//		}
-	}
-
-	@Test
-	public void t08FindFormsByUser() {
+	public void t07FindFormsByUser() {
 		try {
-			List<Form> forms = api.findFormsByUser(userCode);
+			List<Form> forms = api.findFormsByUser(USER_CODE);
 			Assert.assertNotNull(forms);
+			Assert.assertFalse(forms.isEmpty());
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
 		} catch (Exception e) {
@@ -240,11 +235,11 @@ public class ApiTest {
 	}
 
 	@Test
-	public void t09SendNotification() {
+	public void t08SendNotification() {
 		try {
-			device = api.findDeviceByIdentifier(deviceIdentifier);
+			Device device = api.findDeviceByIdentifier(DEVICE_IDENTIFIER);
 			Notification notification = new Notification();
-			notification.setText("Example Notification");
+			notification.setText("Notification Example");
 			notification.setDevices(new ArrayList<Device>());
 			notification.getDevices().add(device);
 			String code = api.sendNotification(notification);
@@ -255,30 +250,32 @@ public class ApiTest {
 	}
 
 	@Test
-	public void t10FindNotificationsByTokenStatus() {
+	public void t09FindNotificationsByTokenStatus() {
 		try {
-			device = api.findDeviceByIdentifier(deviceIdentifier);
+			Device device = api.findDeviceByIdentifier(DEVICE_IDENTIFIER);
 			List<Notification> notifications = api.findNotificationsByTokenStatus(device.getToken(), "DISPATCHED");
 			Assert.assertNotNull(notifications);
+			Assert.assertFalse(notifications.isEmpty());
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
 		}
 	}
 
 	@Test
-	public void t11FindNotificationsByToken() {
+	public void t10FindNotificationsByToken() {
 		try {
-			List<Notification> notifications = api.findNotificationsByToken(deviceIdentifier);
+			List<Notification> notifications = api.findNotificationsByToken(NOTIFICATION_TOKEN);
 			Assert.assertNotNull(notifications);
+			Assert.assertFalse(notifications.isEmpty());
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
 		}
 	}
 
 	@Test
-	public void t12FindNotificationsByCode() {
+	public void t11FindNotificationsByCode() {
 		try {
-			Notification notification = api.findNotificationsByCode(notificationCode);
+			Notification notification = api.findNotificationsByCode(NOTIFICATION_CODE);
 			Assert.assertNotNull(notification);
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
@@ -286,34 +283,34 @@ public class ApiTest {
 	}
 
 	@Test
-	public void t13ChangeNotificationStatus() {
+	public void t12ChangeNotificationStatus() {
 		try {
-			api.changeNotificationStatus(notificationCode, "READ");
+			api.changeNotificationStatus(NOTIFICATION_CODE, "READ");
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
 		}
 	}
 
 	@Test
-	public void t14PrepareSignature() {
+	public void t13PrepareSignature() {
 		try {
-			api.prepareSignature(messageCode, policyCode, userCode);
+			api.prepareSignature(MESSAGE_CODE, POLICY_CODE, USER_CODE);
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
 		}
 	}
 
 	@Test
-	public void t15RegisterSignature() {
+	public void t14RegisterSignature() {
 		try {
-			api.registerSignature(messageCode, policyCode, signatureCode);
+			api.registerSignature(MESSAGE_CODE, POLICY_CODE, SIGNATURE_CODE);
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
 		}
 	}
 
 	@Test
-	public void t16RegisterUser() {
+	public void t15RegisterUser() {
 		User user = new User();
 
 		user.setCode(newUserText);
@@ -338,7 +335,7 @@ public class ApiTest {
 	}
 
 	@Test
-	public void t17FindUserByCode() {
+	public void t16FindUserByCode() {
 		try {
 			api.findUserByCode(newUserText);
 		} catch (ApiException e) {
@@ -347,11 +344,11 @@ public class ApiTest {
 	}
 
 	@Test
-	public void t18FindUserByCode() {
+	public void t17FindUserByCode() {
 		User user;
 		try {
-			user = api.findUserByCode(userCode);
-			Assert.assertEquals(userCode, user.getCode());
+			user = api.findUserByCode(USER_CODE);
+			Assert.assertEquals(USER_CODE, user.getCode());
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
 		}
@@ -359,12 +356,12 @@ public class ApiTest {
 	}
 
 	@Test
-	public void t19PostRequestToken() {
+	public void t18PostRequestToken() {
 		try {
 			V1Api api = new V1Api();
-			api.setBasePath(urlApi);
-			api.setConsumerKey(consumerKey);
-			api.setConsumerSecret(consumerSecret);
+			api.setBasePath(API_URL);
+			api.setConsumerKey(CONSUMER_KEY);
+			api.setConsumerSecret(CONSUMER_SECRET);
 			Token token = api.requestToken();
 			Assert.assertNotNull(token.getOauth_token());
 			Assert.assertNotNull(token.getOauth_token_secret());
@@ -372,8 +369,6 @@ public class ApiTest {
 			Assert.assertNotNull(testApiException(e));
 		}
 	}
-
-
 
 	public ErrorResponse testApiException(ApiException e) {
 		try {
@@ -386,7 +381,6 @@ public class ApiTest {
 		} catch (Exception e1) {
 			return null;
 		}
-
 	}
 
 }

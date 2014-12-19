@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.viafirma.mobile.services.sdk.java.ApiException;
 import com.viafirma.mobile.services.sdk.java.ApiInvoker;
+import com.viafirma.mobile.services.sdk.java.ApiInvoker.TokenHandler;
 import com.viafirma.mobile.services.sdk.java.model.Device;
 import com.viafirma.mobile.services.sdk.java.model.Evidence;
 import com.viafirma.mobile.services.sdk.java.model.Form;
@@ -16,7 +17,7 @@ import com.viafirma.mobile.services.sdk.java.model.Policy;
 import com.viafirma.mobile.services.sdk.java.model.Token;
 import com.viafirma.mobile.services.sdk.java.model.User;
 
-public class V1Api {
+public class V1Api implements TokenHandler {
 	String basePath = "/";
 	String consumerKey = null;
 	String consumerSecret = null;
@@ -132,38 +133,10 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (Device) ApiInvoker.deserialize(response, "", Device.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return registerDevice(body);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
+		return (Device) ApiInvoker.deserialize(response, "", Device.class);
 	}
-	private void generateNewToken() throws ApiException {
-		System.out.println("El token actual ha caducado. Generando nuevo token.");
-		//		setBasePath(urlApi);
-		//		setConsumerKey(consumerKey);
-		//		setConsumerSecret(consumerSecret);
+	public void generateNewToken() throws ApiException {
 		token = null;
 		tokenSecret = null;
 		Token token = requestToken();
@@ -173,13 +146,6 @@ public class V1Api {
 		token = accessToken(user, password, auth_mode);
 		setToken(token.getOauth_token());
 		setTokenSecret(token.getOauth_token_secret());
-		System.out.println("Token: " + token);
-		//		try {
-		//			Thread.sleep(10000);
-		//		} catch(InterruptedException ex) {
-		//			Thread.currentThread().interrupt();
-		//		}
-
 	}
 
 	public Device findDeviceByIdentifier (String identifier) throws ApiException {
@@ -200,33 +166,10 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (Device) ApiInvoker.deserialize(response, "", Device.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return findDeviceByIdentifier(identifier);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (Device) ApiInvoker.deserialize(response, "", Device.class);
 	}
+	@SuppressWarnings("unchecked")
 	public List<Device> findDeviceByUser (String userCode) throws ApiException {
 		// verify required params are set
 		if(userCode == null ) {
@@ -245,32 +188,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (List<Device>) ApiInvoker.deserialize(response, "Array", Device.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return findDeviceByUser(userCode);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (List<Device>) ApiInvoker.deserialize(response, "Array", Device.class);
 	}
 	public byte[] getDocument (String type, String messageCode, String documentCode) throws ApiException {
 		// verify required params are set
@@ -290,27 +209,7 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 		byte[] response = null;
-		try {
-			response = apiInvoker.invokeFileAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return getDocument(contentType, messageCode, documentCode);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		response = apiInvoker.invokeFileAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
 		return response;
 	}
 	public Evidence sendEvidence (String messageCode, String policyCode, String evidenceCode, File body, String metadata, String fingerID, String algorithmic) throws ApiException {
@@ -333,33 +232,10 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (Evidence) ApiInvoker.deserialize(response, "", Evidence.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return sendEvidence(messageCode, policyCode, evidenceCode, body, metadata, fingerID, algorithmic);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
+		return (Evidence) ApiInvoker.deserialize(response, "", Evidence.class);
 	}
+	@SuppressWarnings("unchecked")
 	public List<Form> findFormsByUser (String code) throws ApiException {
 		// verify required params are set
 		if(code == null ) {
@@ -378,32 +254,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (List<Form>) ApiInvoker.deserialize(response, "Array", Form.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return findFormsByUser(code);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (List<Form>) ApiInvoker.deserialize(response, "Array", Form.class);
 	}
 	public String sendMessage (Message body) throws ApiException {
 		// verify required params are set
@@ -423,32 +275,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (String) ApiInvoker.deserialize(response, "", String.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return sendMessage(body);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
+		return (String) ApiInvoker.deserialize(response, "", String.class);
 	}
 	public Message getMessageByCode (String messageCode) throws ApiException {
 		// verify required params are set
@@ -468,32 +296,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (Message) ApiInvoker.deserialize(response, "", Message.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return getMessageByCode(messageCode);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (Message) ApiInvoker.deserialize(response, "", Message.class);
 	}
 	public String sendNotification (Notification body) throws ApiException {
 		// verify required params are set
@@ -513,33 +317,10 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (String) ApiInvoker.deserialize(response, "", String.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return sendNotification(body);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
+		return (String) ApiInvoker.deserialize(response, "", String.class);
 	}
+	@SuppressWarnings("unchecked")
 	public List<Notification> findNotificationsByToken (String push_token) throws ApiException {
 		// verify required params are set
 		if(push_token == null ) {
@@ -558,33 +339,10 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return findNotificationsByToken(push_token);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
 	}
+	@SuppressWarnings("unchecked")
 	public List<Notification> findNotificationsByTokenStatus (String push_token, String status) throws ApiException {
 		// verify required params are set
 		if(push_token == null || status == null ) {
@@ -603,32 +361,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return findNotificationsByTokenStatus(push_token, status);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (List<Notification>) ApiInvoker.deserialize(response, "Array", Notification.class);
 	}
 	public Notification findNotificationsByCode (String code) throws ApiException {
 		// verify required params are set
@@ -648,32 +382,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (Notification) ApiInvoker.deserialize(response, "", Notification.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return findNotificationsByCode(code);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (Notification) ApiInvoker.deserialize(response, "", Notification.class);
 	}
 	public void changeNotificationStatus (String code, String status) throws ApiException {
 		// verify required params are set
@@ -693,32 +403,7 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "PUT", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return ;
-			}else {
-				return ;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return ;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					changeNotificationStatus(code, status);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "PUT", queryParams, null, headerParams, formParams, contentType, validateResponse);
 	}
 	public Policy prepareSignature (String messageCode, String policyCode, String userCode) throws ApiException {
 		// verify required params are set
@@ -741,32 +426,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return prepareSignature(messageCode, policyCode, userCode);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "POST", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
 	}
 	public Policy registerSignature (String messageCode, String policyCode, String signatureCode) throws ApiException {
 		// verify required params are set
@@ -789,32 +450,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return registerSignature(messageCode, policyCode, signatureCode);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "POST", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (Policy) ApiInvoker.deserialize(response, "", Policy.class);
 	}
 	public void registerUser (User body) throws ApiException {
 		// verify required params are set
@@ -834,32 +471,7 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return ;
-			}else {
-				return ;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return ;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					registerUser(body);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "POST", queryParams, body, headerParams, formParams, contentType, validateResponse);
 	}
 	public User findUserByCode (String userCode) throws ApiException {
 		// verify required params are set
@@ -879,32 +491,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (User) ApiInvoker.deserialize(response, "", User.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			} else if(ex.getMessage().trim().contains("code\":83")) {
-				// Token has expired.
-				if (firstAttempt) {
-					firstAttempt = false;
-					// Generate a new token
-					generateNewToken();
-					// retry
-					return findUserByCode(userCode);
-				} else {
-					firstAttempt = true;
-					throw ex;
-				}
-			} else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (User) ApiInvoker.deserialize(response, "", User.class);
 	}
 	public Token requestToken () throws ApiException {
 		// create path and map variables
@@ -920,21 +508,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (Token) ApiInvoker.deserialize(response, "", Token.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			}
-			else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "GET", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (Token) ApiInvoker.deserialize(response, "", Token.class);
 	}
 	public Token accessToken (String x_auth_username, String x_auth_password, String x_auth_mode) throws ApiException {
 
@@ -962,21 +537,8 @@ public class V1Api {
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-		try {
-			String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, token, tokenSecret, path, "POST", queryParams, null, headerParams, formParams, contentType, validateResponse);
-			if(response != null){
-				return (Token) ApiInvoker.deserialize(response, "", Token.class);
-			}else {
-				return null;
-			}
-		} catch (ApiException ex) {
-			if(ex.getCode() == 404) {
-				return null;
-			}
-			else {
-				throw ex;
-			}
-		}
+		String response = apiInvoker.invokeJsonAPI(basePath, consumerKey, consumerSecret, this, path, "POST", queryParams, null, headerParams, formParams, contentType, validateResponse);
+		return (Token) ApiInvoker.deserialize(response, "", Token.class);
 	}
 
 }
