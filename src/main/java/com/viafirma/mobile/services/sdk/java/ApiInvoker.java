@@ -17,6 +17,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.Response.Status.Family;
 
+import org.apache.commons.io.IOUtils;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -28,13 +30,14 @@ import com.sun.jersey.oauth.signature.OAuthParameters;
 import com.sun.jersey.oauth.signature.OAuthSecrets;
 
 public class ApiInvoker {
-	private static ApiInvoker INSTANCE = new ApiInvoker();
+	private static final ApiInvoker INSTANCE = new ApiInvoker();
 	private Map<String, Client> hostMap = new HashMap<String, Client>();
 	private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
 	private boolean isDebug = false;
 	
 	private static final String OAUTH_TOKEN_EXPIRED = "code\":83";
 	private static final String OAUTH_TOKEN_REQUIRED = "code\":80";
+	private static final int INTERNAL_ERROR = 500;
 
 	public void enableDebug() {
 		isDebug = true;
@@ -77,7 +80,7 @@ public class ApiInvoker {
 			}
 		}
 		catch (IOException e) {
-			throw new ApiException(500, e.getMessage());
+			throw new ApiException(INTERNAL_ERROR, e.getMessage());
 		}
 	}
 
@@ -90,7 +93,7 @@ public class ApiInvoker {
 			}
 		}
 		catch (Exception e) {
-			throw new ApiException(500, e.getMessage());
+			throw new ApiException(INTERNAL_ERROR, e.getMessage());
 		}
 	}
 
@@ -121,7 +124,7 @@ public class ApiInvoker {
 					validateRFC2104HMAC(result.getBytes("UTF-8"), consumerSecret, response.getHeaders().get("Signature-Body").get(0));
 				}
 			} catch (UnsupportedEncodingException e) {
-				throw new ApiException(500, "Unsupported encoding");
+				throw new ApiException(INTERNAL_ERROR, "Unsupported encoding");
 			}
 		}
 		return result;
@@ -143,7 +146,7 @@ public class ApiInvoker {
 				}
 			}				
 				
-			byte[] resp = toByteArray(response.getEntityInputStream());			
+			byte[] resp = IOUtils.toByteArray(response.getEntityInputStream());
 			if(validateResponse && hasValidSignature(response))
 			{	
 				if(tokenHandler.getTokenSecret() != null){
@@ -154,7 +157,7 @@ public class ApiInvoker {
 			}
 			return resp;
 		} catch (IOException e) {
-			throw new ApiException(500, "Error getting file");
+			throw new ApiException(INTERNAL_ERROR, "Error getting file");
 		}
 	}
 
@@ -231,7 +234,7 @@ public class ApiInvoker {
 						try {
 							formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
 						}
-						catch (Exception e) {
+						catch (UnsupportedEncodingException IGNORE) {
 							// move on to next
 						}
 					}
@@ -258,7 +261,7 @@ public class ApiInvoker {
 							try {
 								formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
 							}
-							catch (Exception e) {
+							catch (UnsupportedEncodingException IGNORE) {
 								// move on to next
 							}
 						}
@@ -277,7 +280,7 @@ public class ApiInvoker {
 			}
 		}
 		else {
-			throw new ApiException(500, "unknown method type " + method);
+			throw new ApiException(INTERNAL_ERROR, "unknown method type " + method);
 		}
 		if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
 			return null;
@@ -292,33 +295,19 @@ public class ApiInvoker {
 		}
 	}
 
-	public static byte[] toByteArray(InputStream input) throws IOException {
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-		int nRead;
-		byte[] data = new byte[1024 * 4];
-
-		while ((nRead = input.read(data, 0, data.length)) != -1) {
-			buffer.write(data, 0, nRead);
-		}
-
-		buffer.flush();
-		return buffer.toByteArray();
-	}
-
 	public void validateRFC2104HMAC(byte[] data, String key, String hash) throws ApiException {
 
 		try {
 			String signature = calculateRFC2104HMAC(data, key);
 			if(!hash.equals(signature)){
-				throw new ApiException(500, "Invalid HmacSHA1");
+				throw new ApiException(INTERNAL_ERROR, "Invalid HmacSHA1");
 			}
 		} catch (NoSuchAlgorithmException e) {
-			throw new ApiException(500, "No Such Algorithm");
+			throw new ApiException(INTERNAL_ERROR, "No Such Algorithm");
 		} catch (InvalidKeyException e) {
-			throw new ApiException(500, "Invalid Key");
+			throw new ApiException(INTERNAL_ERROR, "Invalid Key");
 		} catch (SignatureException e) {
-			throw new ApiException(500, "Invalid Signature");
+			throw new ApiException(INTERNAL_ERROR, "Invalid Signature");
 		}
 
 	}
