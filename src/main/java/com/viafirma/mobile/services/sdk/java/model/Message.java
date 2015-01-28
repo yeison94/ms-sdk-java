@@ -18,6 +18,8 @@ public class Message {
   private List<Param> metadataList = new ArrayList<Param>();
   private List<Policy> policies = new ArrayList<Policy>();
   private String callbackURL = null;
+  private String callbackMails = null;
+  private List<String> callbackMailsFormKeys = new ArrayList<String>();
   private ErrorResponse error = null;
   public String getCode() {
     return code;
@@ -89,6 +91,20 @@ public class Message {
     this.callbackURL = callbackURL;
   }
 
+  public String getCallbackMails() {
+    return callbackMails;
+  }
+  public void setCallbackMails(String callbackMails) {
+    this.callbackMails = callbackMails;
+  }
+
+  public List<String> getCallbackMailsFormKeys() {
+    return callbackMailsFormKeys;
+  }
+  public void setCallbackMailsFormKeys(List<String> callbackMailsFormKeys) {
+    this.callbackMailsFormKeys = callbackMailsFormKeys;
+  }
+
   public ErrorResponse getError() {
     return error;
   }
@@ -110,6 +126,8 @@ public class Message {
     sb.append("  metadataList: ").append(metadataList).append("\n");
     sb.append("  policies: ").append(policies).append("\n");
     sb.append("  callbackURL: ").append(callbackURL).append("\n");
+    sb.append("  callbackMails: ").append(callbackMails).append("\n");
+    sb.append("  callbackMailsFormKeys: ").append(callbackMailsFormKeys).append("\n");
     sb.append("  error: ").append(error).append("\n");
     sb.append("}\n");
     return sb.toString();

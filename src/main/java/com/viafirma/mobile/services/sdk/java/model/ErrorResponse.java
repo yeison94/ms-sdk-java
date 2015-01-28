@@ -1,22 +1,14 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
 public class ErrorResponse {
-  private Integer code = null;
-  private String status = null;
+  private String type = null;
   private String message = null;
   private String trace = null;
-  public Integer getCode() {
-    return code;
+  public String getType() {
+    return type;
   }
-  public void setCode(Integer code) {
-    this.code = code;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-  public void setStatus(String status) {
-    this.status = status;
+  public void setType(String type) {
+    this.type = type;
   }
 
   public String getMessage() {
@@ -37,8 +29,7 @@ public class ErrorResponse {
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class ErrorResponse {\n");
-    sb.append("  code: ").append(code).append("\n");
-    sb.append("  status: ").append(status).append("\n");
+    sb.append("  type: ").append(type).append("\n");
     sb.append("  message: ").append(message).append("\n");
     sb.append("  trace: ").append(trace).append("\n");
     sb.append("}\n");
