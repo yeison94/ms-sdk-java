@@ -446,7 +446,7 @@ public class V1Api implements TokenHandler {
 		formParams.put("policyCode", policyCode);
 		formParams.put("signatureCode", signatureCode);
 		String[] contentTypes = {
-		"application/json"};
+		"application/x-www-form-urlencoded"};
 
 		String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 

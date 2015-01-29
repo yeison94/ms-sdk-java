@@ -10,6 +10,7 @@ public class Document {
   private String signedCode = null;
   private String signedReference = null;
   private String templateType = null;
+  //public enum templateTypeEnum { docx, odt, url, }; 
   private List<Item> items = new ArrayList<Item>();
   public String getTemplateCode() {
     return templateCode;

@@ -14,6 +14,8 @@ public class User {
   private String viafirmaCertificate = null;
   private String region = null;
   private String pos = null;
+  private String mobile = null;
+  private String channel = null;
   public String getCode() {
     return code;
   }
@@ -105,6 +107,20 @@ public class User {
     this.pos = pos;
   }
 
+  public String getMobile() {
+    return mobile;
+  }
+  public void setMobile(String mobile) {
+    this.mobile = mobile;
+  }
+
+  public String getChannel() {
+    return channel;
+  }
+  public void setChannel(String channel) {
+    this.channel = channel;
+  }
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
@@ -122,6 +138,8 @@ public class User {
     sb.append("  viafirmaCertificate: ").append(viafirmaCertificate).append("\n");
     sb.append("  region: ").append(region).append("\n");
     sb.append("  pos: ").append(pos).append("\n");
+    sb.append("  mobile: ").append(mobile).append("\n");
+    sb.append("  channel: ").append(channel).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

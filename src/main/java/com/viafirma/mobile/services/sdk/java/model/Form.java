@@ -8,6 +8,7 @@ import com.viafirma.mobile.services.sdk.java.model.FormNestedValue;
 public class Form {
   private String code = null;
   private String title = null;
+  private String description = null;
   private String version = null;
   private String templateCode = null;
   private List<Container> containers = new ArrayList<Container>();
@@ -26,6 +27,13 @@ public class Form {
   }
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getVersion() {
@@ -76,6 +84,7 @@ public class Form {
     sb.append("class Form {\n");
     sb.append("  code: ").append(code).append("\n");
     sb.append("  title: ").append(title).append("\n");
+    sb.append("  description: ").append(description).append("\n");
     sb.append("  version: ").append(version).append("\n");
     sb.append("  templateCode: ").append(templateCode).append("\n");
     sb.append("  containers: ").append(containers).append("\n");
