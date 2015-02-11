@@ -78,7 +78,7 @@ Message message = new Message();
 
 //Create workflow
 Workflow workflow = new Workflow();
-workflow.setCode("EX002");
+workflow.setCode("EX005");
 message.setWorkflow(workflow);
 
 //Create notification info
