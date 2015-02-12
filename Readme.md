@@ -95,22 +95,24 @@ document.setTemplateType("docx");
 //Add dato to template
 List<Item> items = new ArrayList<Item>();
 Item item = new Item();
-
 item.setKey("KEY_01");
 item.setLabel("Test key 1");
 item.setValue(UUID.randomUUID().toString());
 items.add(item);
 
+item = new Item();
 item.setKey("KEY_02");
 item.setLabel("Test key 2");
 item.setValue(UUID.randomUUID().toString());
 items.add(item);
 
+item = new Item();
 item.setKey("KEY_03");
 item.setLabel("Test key 3");
 item.setValue(UUID.randomUUID().toString());
 items.add(item);
 
+item = new Item();
 item.setKey("KEY_04");
 item.setLabel("Test key 4");
 item.setValue(UUID.randomUUID().toString());
