@@ -1,6 +1,13 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
-public class User {
+
+import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+@ApiModel(description = "")
+public class User  {
+  
   private String code = null;
   private String nationalId = null;
   private String email = null;
@@ -16,6 +23,12 @@ public class User {
   private String pos = null;
   private String mobile = null;
   private String channel = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("code")
   public String getCode() {
     return code;
   }
@@ -23,6 +36,11 @@ public class User {
     this.code = code;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("nationalId")
   public String getNationalId() {
     return nationalId;
   }
@@ -30,6 +48,11 @@ public class User {
     this.nationalId = nationalId;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("email")
   public String getEmail() {
     return email;
   }
@@ -37,6 +60,11 @@ public class User {
     this.email = email;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -44,6 +72,11 @@ public class User {
     this.password = password;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -51,6 +84,11 @@ public class User {
     this.name = name;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("surname")
   public String getSurname() {
     return surname;
   }
@@ -58,6 +96,11 @@ public class User {
     this.surname = surname;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("rol")
   public String getRol() {
     return rol;
   }
@@ -65,6 +108,11 @@ public class User {
     this.rol = rol;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("description")
   public String getDescription() {
     return description;
   }
@@ -72,6 +120,11 @@ public class User {
     this.description = description;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("viafirmaKey")
   public String getViafirmaKey() {
     return viafirmaKey;
   }
@@ -79,6 +132,11 @@ public class User {
     this.viafirmaKey = viafirmaKey;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("viafirmaPassword")
   public String getViafirmaPassword() {
     return viafirmaPassword;
   }
@@ -86,6 +144,11 @@ public class User {
     this.viafirmaPassword = viafirmaPassword;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("viafirmaCertificate")
   public String getViafirmaCertificate() {
     return viafirmaCertificate;
   }
@@ -93,6 +156,11 @@ public class User {
     this.viafirmaCertificate = viafirmaCertificate;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("region")
   public String getRegion() {
     return region;
   }
@@ -100,6 +168,11 @@ public class User {
     this.region = region;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("pos")
   public String getPos() {
     return pos;
   }
@@ -107,6 +180,11 @@ public class User {
     this.pos = pos;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("mobile")
   public String getMobile() {
     return mobile;
   }
@@ -114,6 +192,11 @@ public class User {
     this.mobile = mobile;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("channel")
   public String getChannel() {
     return channel;
   }
@@ -121,10 +204,13 @@ public class User {
     this.channel = channel;
   }
 
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
+    
     sb.append("  code: ").append(code).append("\n");
     sb.append("  nationalId: ").append(nationalId).append("\n");
     sb.append("  email: ").append(email).append("\n");
@@ -144,4 +230,3 @@ public class User {
     return sb.toString();
   }
 }
-

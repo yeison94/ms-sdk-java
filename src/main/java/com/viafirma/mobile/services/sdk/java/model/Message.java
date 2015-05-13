@@ -1,26 +1,41 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
-import java.util.*;
+import com.viafirma.mobile.services.sdk.java.model.Document;
+import com.viafirma.mobile.services.sdk.java.model.Param;
+import com.viafirma.mobile.services.sdk.java.model.Workflow;
 import com.viafirma.mobile.services.sdk.java.model.Policy;
 import com.viafirma.mobile.services.sdk.java.model.ErrorResponse;
-import com.viafirma.mobile.services.sdk.java.model.Workflow;
-import com.viafirma.mobile.services.sdk.java.model.Param;
-import com.viafirma.mobile.services.sdk.java.model.Document;
+import java.util.*;
 import com.viafirma.mobile.services.sdk.java.model.Notification;
-public class Message {
+
+import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+@ApiModel(description = "")
+public class Message  {
+  
   private String code = null;
   private String userCode = null;
+  private String groupCode = null;
   private String appCode = null;
   private String version = null;
   private Workflow workflow = null;
   private Notification notification = null;
   private Document document = null;
-  private List<Param> metadataList = new ArrayList<Param>();
-  private List<Policy> policies = new ArrayList<Policy>();
+  private List<Param> metadataList = new ArrayList<Param>() ;
+  private List<Policy> policies = new ArrayList<Policy>() ;
   private String callbackURL = null;
   private String callbackMails = null;
-  private List<String> callbackMailsFormKeys = new ArrayList<String>();
+  private List<String> callbackMailsFormKeys = new ArrayList<String>() ;
   private ErrorResponse error = null;
+  private String commentReject = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("code")
   public String getCode() {
     return code;
   }
@@ -28,6 +43,11 @@ public class Message {
     this.code = code;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("userCode")
   public String getUserCode() {
     return userCode;
   }
@@ -35,6 +55,23 @@ public class Message {
     this.userCode = userCode;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("groupCode")
+  public String getGroupCode() {
+    return groupCode;
+  }
+  public void setGroupCode(String groupCode) {
+    this.groupCode = groupCode;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("appCode")
   public String getAppCode() {
     return appCode;
   }
@@ -42,6 +79,11 @@ public class Message {
     this.appCode = appCode;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("version")
   public String getVersion() {
     return version;
   }
@@ -49,6 +91,11 @@ public class Message {
     this.version = version;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("workflow")
   public Workflow getWorkflow() {
     return workflow;
   }
@@ -56,6 +103,11 @@ public class Message {
     this.workflow = workflow;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("notification")
   public Notification getNotification() {
     return notification;
   }
@@ -63,6 +115,11 @@ public class Message {
     this.notification = notification;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("document")
   public Document getDocument() {
     return document;
   }
@@ -70,6 +127,11 @@ public class Message {
     this.document = document;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("metadataList")
   public List<Param> getMetadataList() {
     return metadataList;
   }
@@ -77,6 +139,11 @@ public class Message {
     this.metadataList = metadataList;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("policies")
   public List<Policy> getPolicies() {
     return policies;
   }
@@ -84,6 +151,11 @@ public class Message {
     this.policies = policies;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("callbackURL")
   public String getCallbackURL() {
     return callbackURL;
   }
@@ -91,6 +163,11 @@ public class Message {
     this.callbackURL = callbackURL;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("callbackMails")
   public String getCallbackMails() {
     return callbackMails;
   }
@@ -98,6 +175,11 @@ public class Message {
     this.callbackMails = callbackMails;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("callbackMailsFormKeys")
   public List<String> getCallbackMailsFormKeys() {
     return callbackMailsFormKeys;
   }
@@ -105,6 +187,11 @@ public class Message {
     this.callbackMailsFormKeys = callbackMailsFormKeys;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("error")
   public ErrorResponse getError() {
     return error;
   }
@@ -112,12 +199,28 @@ public class Message {
     this.error = error;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("commentReject")
+  public String getCommentReject() {
+    return commentReject;
+  }
+  public void setCommentReject(String commentReject) {
+    this.commentReject = commentReject;
+  }
+
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Message {\n");
+    
     sb.append("  code: ").append(code).append("\n");
     sb.append("  userCode: ").append(userCode).append("\n");
+    sb.append("  groupCode: ").append(groupCode).append("\n");
     sb.append("  appCode: ").append(appCode).append("\n");
     sb.append("  version: ").append(version).append("\n");
     sb.append("  workflow: ").append(workflow).append("\n");
@@ -129,8 +232,8 @@ public class Message {
     sb.append("  callbackMails: ").append(callbackMails).append("\n");
     sb.append("  callbackMailsFormKeys: ").append(callbackMailsFormKeys).append("\n");
     sb.append("  error: ").append(error).append("\n");
+    sb.append("  commentReject: ").append(commentReject).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
 }
-

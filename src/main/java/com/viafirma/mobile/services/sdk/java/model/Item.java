@@ -1,7 +1,14 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
 import java.util.*;
-public class Item {
+
+import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+@ApiModel(description = "")
+public class Item  {
+  
   private String key = null;
   private String value = null;
   private String type = null;
@@ -19,13 +26,19 @@ public class Item {
   private String match = null;
   private String update = null;
   private Boolean disabled = null;
-  private List<String> values = new ArrayList<String>();
+  private List<String> values = new ArrayList<String>() ;
   private String height = null;
   private String format = null;
   private String maxLength = null;
   private String minLength = null;
-  private List<String> monthNames = new ArrayList<String>();
-  private List<String> dayNames = new ArrayList<String>();
+  private List<String> monthNames = new ArrayList<String>() ;
+  private List<String> dayNames = new ArrayList<String>() ;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("key")
   public String getKey() {
     return key;
   }
@@ -33,6 +46,11 @@ public class Item {
     this.key = key;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("value")
   public String getValue() {
     return value;
   }
@@ -40,6 +58,11 @@ public class Item {
     this.value = value;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("type")
   public String getType() {
     return type;
   }
@@ -47,6 +70,11 @@ public class Item {
     this.type = type;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("label")
   public String getLabel() {
     return label;
   }
@@ -54,6 +82,11 @@ public class Item {
     this.label = label;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("placeHolder")
   public String getPlaceHolder() {
     return placeHolder;
   }
@@ -61,6 +94,11 @@ public class Item {
     this.placeHolder = placeHolder;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("size")
   public String getSize() {
     return size;
   }
@@ -68,6 +106,11 @@ public class Item {
     this.size = size;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("required")
   public Boolean getRequired() {
     return required;
   }
@@ -75,6 +118,11 @@ public class Item {
     this.required = required;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("validation")
   public String getValidation() {
     return validation;
   }
@@ -82,6 +130,11 @@ public class Item {
     this.validation = validation;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("validationRegex")
   public String getValidationRegex() {
     return validationRegex;
   }
@@ -89,6 +142,11 @@ public class Item {
     this.validationRegex = validationRegex;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("refValues")
   public String getRefValues() {
     return refValues;
   }
@@ -96,6 +154,11 @@ public class Item {
     this.refValues = refValues;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("list")
   public String getList() {
     return list;
   }
@@ -103,6 +166,11 @@ public class Item {
     this.list = list;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("nestedList")
   public String getNestedList() {
     return nestedList;
   }
@@ -110,6 +178,11 @@ public class Item {
     this.nestedList = nestedList;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("text")
   public String getText() {
     return text;
   }
@@ -117,6 +190,11 @@ public class Item {
     this.text = text;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("href")
   public String getHref() {
     return href;
   }
@@ -124,6 +202,11 @@ public class Item {
     this.href = href;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("match")
   public String getMatch() {
     return match;
   }
@@ -131,6 +214,11 @@ public class Item {
     this.match = match;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("update")
   public String getUpdate() {
     return update;
   }
@@ -138,6 +226,11 @@ public class Item {
     this.update = update;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("disabled")
   public Boolean getDisabled() {
     return disabled;
   }
@@ -145,6 +238,11 @@ public class Item {
     this.disabled = disabled;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("values")
   public List<String> getValues() {
     return values;
   }
@@ -152,6 +250,11 @@ public class Item {
     this.values = values;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("height")
   public String getHeight() {
     return height;
   }
@@ -159,6 +262,11 @@ public class Item {
     this.height = height;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("format")
   public String getFormat() {
     return format;
   }
@@ -166,6 +274,11 @@ public class Item {
     this.format = format;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("maxLength")
   public String getMaxLength() {
     return maxLength;
   }
@@ -173,6 +286,11 @@ public class Item {
     this.maxLength = maxLength;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("minLength")
   public String getMinLength() {
     return minLength;
   }
@@ -180,6 +298,11 @@ public class Item {
     this.minLength = minLength;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("monthNames")
   public List<String> getMonthNames() {
     return monthNames;
   }
@@ -187,6 +310,11 @@ public class Item {
     this.monthNames = monthNames;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("dayNames")
   public List<String> getDayNames() {
     return dayNames;
   }
@@ -194,10 +322,13 @@ public class Item {
     this.dayNames = dayNames;
   }
 
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Item {\n");
+    
     sb.append("  key: ").append(key).append("\n");
     sb.append("  value: ").append(value).append("\n");
     sb.append("  type: ").append(type).append("\n");
@@ -226,4 +357,3 @@ public class Item {
     return sb.toString();
   }
 }
-

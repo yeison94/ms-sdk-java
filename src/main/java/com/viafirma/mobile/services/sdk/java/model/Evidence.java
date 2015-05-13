@@ -1,32 +1,55 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
-import java.util.*;
 import com.viafirma.mobile.services.sdk.java.model.Position;
-public class Evidence {
-  private String type = null;
-  //public enum typeEnum { ANNOTATION, IMAGE, FINGER_PRINT, }; 
+import java.util.*;
+
+import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+@ApiModel(description = "")
+public class Evidence  {
+  
+  public enum TypeEnum {
+     ANNOTATION,  IMAGE,  FINGER_PRINT, 
+  };
+  private TypeEnum type = null;
   private String code = null;
-  private String status = null;
-  //public enum statusEnum { PENDING, RECEIVED, ADDED, }; 
+  public enum StatusEnum {
+     PENDING,  RECEIVED,  ADDED, 
+  };
+  private StatusEnum status = null;
   private String helpText = null;
   private String temporalReference = null;
-  private List<Position> positions = new ArrayList<Position>();
+  private List<Position> positions = new ArrayList<Position>() ;
   private String metadata = null;
   private String deviceType = null;
-  private List<String> hashPdf = new ArrayList<String>();
+  private List<String> hashPdf = new ArrayList<String>() ;
   private String hashImage = null;
   private String algorithmic = null;
   private String fingerID = null;
   private String typeFormatSign = null;
   private String certificateAlias = null;
   private String certificatePassword = null;
-  public String getType() {
+  private String metadataCipherPublicKey = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("type")
+  public TypeEnum getType() {
     return type;
   }
-  public void setType(String type) {
+  public void setType(TypeEnum type) {
     this.type = type;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("code")
   public String getCode() {
     return code;
   }
@@ -34,13 +57,23 @@ public class Evidence {
     this.code = code;
   }
 
-  public String getStatus() {
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("status")
+  public StatusEnum getStatus() {
     return status;
   }
-  public void setStatus(String status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("helpText")
   public String getHelpText() {
     return helpText;
   }
@@ -48,6 +81,11 @@ public class Evidence {
     this.helpText = helpText;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("temporalReference")
   public String getTemporalReference() {
     return temporalReference;
   }
@@ -55,6 +93,11 @@ public class Evidence {
     this.temporalReference = temporalReference;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("positions")
   public List<Position> getPositions() {
     return positions;
   }
@@ -62,6 +105,11 @@ public class Evidence {
     this.positions = positions;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("metadata")
   public String getMetadata() {
     return metadata;
   }
@@ -69,6 +117,11 @@ public class Evidence {
     this.metadata = metadata;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("deviceType")
   public String getDeviceType() {
     return deviceType;
   }
@@ -76,6 +129,11 @@ public class Evidence {
     this.deviceType = deviceType;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("hashPdf")
   public List<String> getHashPdf() {
     return hashPdf;
   }
@@ -83,6 +141,11 @@ public class Evidence {
     this.hashPdf = hashPdf;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("hashImage")
   public String getHashImage() {
     return hashImage;
   }
@@ -90,6 +153,11 @@ public class Evidence {
     this.hashImage = hashImage;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("algorithmic")
   public String getAlgorithmic() {
     return algorithmic;
   }
@@ -97,6 +165,11 @@ public class Evidence {
     this.algorithmic = algorithmic;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("fingerID")
   public String getFingerID() {
     return fingerID;
   }
@@ -104,6 +177,11 @@ public class Evidence {
     this.fingerID = fingerID;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("typeFormatSign")
   public String getTypeFormatSign() {
     return typeFormatSign;
   }
@@ -111,6 +189,11 @@ public class Evidence {
     this.typeFormatSign = typeFormatSign;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("certificateAlias")
   public String getCertificateAlias() {
     return certificateAlias;
   }
@@ -118,6 +201,11 @@ public class Evidence {
     this.certificateAlias = certificateAlias;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("certificatePassword")
   public String getCertificatePassword() {
     return certificatePassword;
   }
@@ -125,10 +213,25 @@ public class Evidence {
     this.certificatePassword = certificatePassword;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("metadataCipherPublicKey")
+  public String getMetadataCipherPublicKey() {
+    return metadataCipherPublicKey;
+  }
+  public void setMetadataCipherPublicKey(String metadataCipherPublicKey) {
+    this.metadataCipherPublicKey = metadataCipherPublicKey;
+  }
+
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Evidence {\n");
+    
     sb.append("  type: ").append(type).append("\n");
     sb.append("  code: ").append(code).append("\n");
     sb.append("  status: ").append(status).append("\n");
@@ -144,8 +247,8 @@ public class Evidence {
     sb.append("  typeFormatSign: ").append(typeFormatSign).append("\n");
     sb.append("  certificateAlias: ").append(certificateAlias).append("\n");
     sb.append("  certificatePassword: ").append(certificatePassword).append("\n");
+    sb.append("  metadataCipherPublicKey: ").append(metadataCipherPublicKey).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
 }
-

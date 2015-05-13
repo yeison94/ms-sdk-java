@@ -1,6 +1,5 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
-import com.viafirma.mobile.services.sdk.java.model.Form;
 import java.util.Date;
 
 import com.wordnik.swagger.annotations.*;
@@ -8,13 +7,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Template  {
+public class TemplateList  {
   
   private String code = null;
   private String title = null;
   private String description = null;
   private Date creationDate = null;
-  private Form form = null;
 
   
   /**
@@ -65,29 +63,16 @@ public class Template  {
   }
 
   
-  /**
-   **/
-  @ApiModelProperty(required = true, value = "")
-  @JsonProperty("form")
-  public Form getForm() {
-    return form;
-  }
-  public void setForm(Form form) {
-    this.form = form;
-  }
-
-  
 
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Template {\n");
+    sb.append("class TemplateList {\n");
     
     sb.append("  code: ").append(code).append("\n");
     sb.append("  title: ").append(title).append("\n");
     sb.append("  description: ").append(description).append("\n");
     sb.append("  creationDate: ").append(creationDate).append("\n");
-    sb.append("  form: ").append(form).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

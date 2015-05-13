@@ -1,24 +1,41 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
-import java.util.*;
-import com.viafirma.mobile.services.sdk.java.model.Evidence;
-import com.viafirma.mobile.services.sdk.java.model.ErrorResponse;
 import com.viafirma.mobile.services.sdk.java.model.Param;
-public class Policy {
+import com.viafirma.mobile.services.sdk.java.model.ErrorResponse;
+import com.viafirma.mobile.services.sdk.java.model.Evidence;
+import java.util.*;
+
+import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+@ApiModel(description = "")
+public class Policy  {
+  
   private String code = null;
   private String userCode = null;
-  private String typeFormatSign = null;
-  //public enum typeFormatSignEnum { DIGITALIZED_SIGN, PAdES_BASIC, PAdES_BES, PAdES_EPES, PAdES_LTV, PDF_PKCS7, }; 
-  private String typeSign = null;
-  //public enum typeSignEnum { ATTACHED, DETACHED, ENVELOPED, ENVELOPING, }; 
+  public enum TypeFormatSignEnum {
+     DIGITALIZED_SIGN,  PAdES_BASIC,  PAdES_BES,  PAdES_EPES,  PAdES_LTV,  PDF_PKCS7, 
+  };
+  private TypeFormatSignEnum typeFormatSign = null;
+  public enum TypeSignEnum {
+     ATTACHED,  DETACHED,  ENVELOPED,  ENVELOPING, 
+  };
+  private TypeSignEnum typeSign = null;
   private Boolean signByServer = null;
   private String certificateAlias = null;
   private String certificatePassword = null;
   private String idTemporal = null;
   private String idSign = null;
-  private List<Param> paramList = new ArrayList<Param>();
-  private List<Evidence> evidences = new ArrayList<Evidence>();
+  private List<Param> paramList = new ArrayList<Param>() ;
+  private List<Evidence> evidences = new ArrayList<Evidence>() ;
   private ErrorResponse error = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("code")
   public String getCode() {
     return code;
   }
@@ -26,6 +43,11 @@ public class Policy {
     this.code = code;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("userCode")
   public String getUserCode() {
     return userCode;
   }
@@ -33,20 +55,35 @@ public class Policy {
     this.userCode = userCode;
   }
 
-  public String getTypeFormatSign() {
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("typeFormatSign")
+  public TypeFormatSignEnum getTypeFormatSign() {
     return typeFormatSign;
   }
-  public void setTypeFormatSign(String typeFormatSign) {
+  public void setTypeFormatSign(TypeFormatSignEnum typeFormatSign) {
     this.typeFormatSign = typeFormatSign;
   }
 
-  public String getTypeSign() {
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("typeSign")
+  public TypeSignEnum getTypeSign() {
     return typeSign;
   }
-  public void setTypeSign(String typeSign) {
+  public void setTypeSign(TypeSignEnum typeSign) {
     this.typeSign = typeSign;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("signByServer")
   public Boolean getSignByServer() {
     return signByServer;
   }
@@ -54,6 +91,11 @@ public class Policy {
     this.signByServer = signByServer;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("certificateAlias")
   public String getCertificateAlias() {
     return certificateAlias;
   }
@@ -61,6 +103,11 @@ public class Policy {
     this.certificateAlias = certificateAlias;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("certificatePassword")
   public String getCertificatePassword() {
     return certificatePassword;
   }
@@ -68,6 +115,11 @@ public class Policy {
     this.certificatePassword = certificatePassword;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("idTemporal")
   public String getIdTemporal() {
     return idTemporal;
   }
@@ -75,6 +127,11 @@ public class Policy {
     this.idTemporal = idTemporal;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("idSign")
   public String getIdSign() {
     return idSign;
   }
@@ -82,6 +139,11 @@ public class Policy {
     this.idSign = idSign;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("paramList")
   public List<Param> getParamList() {
     return paramList;
   }
@@ -89,6 +151,11 @@ public class Policy {
     this.paramList = paramList;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("evidences")
   public List<Evidence> getEvidences() {
     return evidences;
   }
@@ -96,6 +163,11 @@ public class Policy {
     this.evidences = evidences;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("error")
   public ErrorResponse getError() {
     return error;
   }
@@ -103,10 +175,13 @@ public class Policy {
     this.error = error;
   }
 
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Policy {\n");
+    
     sb.append("  code: ").append(code).append("\n");
     sb.append("  userCode: ").append(userCode).append("\n");
     sb.append("  typeFormatSign: ").append(typeFormatSign).append("\n");
@@ -123,4 +198,3 @@ public class Policy {
     return sb.toString();
   }
 }
-

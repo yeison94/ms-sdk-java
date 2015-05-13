@@ -1,10 +1,23 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
-public class Rectangle {
+
+import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+@ApiModel(description = "")
+public class Rectangle  {
+  
   private Integer x = null;
   private Integer y = null;
   private Integer width = null;
   private Integer height = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("x")
   public Integer getX() {
     return x;
   }
@@ -12,6 +25,11 @@ public class Rectangle {
     this.x = x;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("y")
   public Integer getY() {
     return y;
   }
@@ -19,6 +37,11 @@ public class Rectangle {
     this.y = y;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("width")
   public Integer getWidth() {
     return width;
   }
@@ -26,6 +49,11 @@ public class Rectangle {
     this.width = width;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("height")
   public Integer getHeight() {
     return height;
   }
@@ -33,10 +61,13 @@ public class Rectangle {
     this.height = height;
   }
 
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Rectangle {\n");
+    
     sb.append("  x: ").append(x).append("\n");
     sb.append("  y: ").append(y).append("\n");
     sb.append("  width: ").append(width).append("\n");
@@ -45,4 +76,3 @@ public class Rectangle {
     return sb.toString();
   }
 }
-

@@ -2,12 +2,25 @@ package com.viafirma.mobile.services.sdk.java.model;
 
 import java.util.Date;
 import com.viafirma.mobile.services.sdk.java.model.ErrorResponse;
-public class EventHistory {
+
+import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+@ApiModel(description = "")
+public class EventHistory  {
+  
   private Date start = null;
   private Date ends = null;
   private String taskName = null;
   private Integer order = null;
   private ErrorResponse error = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("start")
   public Date getStart() {
     return start;
   }
@@ -15,6 +28,11 @@ public class EventHistory {
     this.start = start;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("ends")
   public Date getEnds() {
     return ends;
   }
@@ -22,6 +40,11 @@ public class EventHistory {
     this.ends = ends;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("taskName")
   public String getTaskName() {
     return taskName;
   }
@@ -29,6 +52,11 @@ public class EventHistory {
     this.taskName = taskName;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("order")
   public Integer getOrder() {
     return order;
   }
@@ -36,6 +64,11 @@ public class EventHistory {
     this.order = order;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("error")
   public ErrorResponse getError() {
     return error;
   }
@@ -43,10 +76,13 @@ public class EventHistory {
     this.error = error;
   }
 
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class EventHistory {\n");
+    
     sb.append("  start: ").append(start).append("\n");
     sb.append("  ends: ").append(ends).append("\n");
     sb.append("  taskName: ").append(taskName).append("\n");
@@ -56,4 +92,3 @@ public class EventHistory {
     return sb.toString();
   }
 }
-

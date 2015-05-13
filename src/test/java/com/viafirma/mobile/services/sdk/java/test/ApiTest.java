@@ -9,54 +9,53 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.viafirma.mobile.services.sdk.java.ApiException;
 import com.viafirma.mobile.services.sdk.java.api.V1Api;
 import com.viafirma.mobile.services.sdk.java.model.Device;
+import com.viafirma.mobile.services.sdk.java.model.Device.TypeEnum;
 import com.viafirma.mobile.services.sdk.java.model.Document;
+import com.viafirma.mobile.services.sdk.java.model.Document.TemplateTypeEnum;
 import com.viafirma.mobile.services.sdk.java.model.ErrorResponse;
-import com.viafirma.mobile.services.sdk.java.model.Form;
 import com.viafirma.mobile.services.sdk.java.model.Item;
 import com.viafirma.mobile.services.sdk.java.model.Message;
 import com.viafirma.mobile.services.sdk.java.model.Notification;
 import com.viafirma.mobile.services.sdk.java.model.Param;
 import com.viafirma.mobile.services.sdk.java.model.Policy;
+import com.viafirma.mobile.services.sdk.java.model.Policy.TypeFormatSignEnum;
+import com.viafirma.mobile.services.sdk.java.model.Policy.TypeSignEnum;
 import com.viafirma.mobile.services.sdk.java.model.Token;
 import com.viafirma.mobile.services.sdk.java.model.User;
 
 /**
  * JUnit Test
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ApiTest {
 
 	private static V1Api api;
 	private static final String TEMPLATE_CODE = "001_example";
-	private static final String TEMPLATE_TYPE = "docx";
+	private static final TemplateTypeEnum TEMPLATE_TYPE = TemplateTypeEnum.docx;
 	
-	private static final String USER_CODE = "XXXXXXXXXXXXX";
-	private static final String USER_PASSWORD = "XXXXXXXXXXXXX";
+	private static final String USER_CODE = "marina";
+	private static final String USER_PASSWORD = "marina";
 	
-	private static final String DEVICE_CODE = "iphoneTest";
+	private static final String DEVICE_CODE = "testmarina";
 	private static final String DEVICE_DESCRIPTION = "Device for JUnit test";
 	private static final String DEVICE_LOCALE = "es_ES";
-	private static final String DEVICE_TYPE = "IOS";
-	private static final String DEVICE_IDENTIFIER = "XXXXXXXXXXXXX";
+	private static final TypeEnum DEVICE_TYPE = TypeEnum.IOS;
+	private static final String DEVICE_IDENTIFIER = "DDC0EB02-88D6-402F-91C6-1C0E09185C13";
 	
-	private static final String API_URL = "http://127.0.0.1:8080/mobile-services/api";
-	private static final String CONSUMER_KEY = "XXXXXXXXXXXXX";
-	private static final String CONSUMER_SECRET = "XXXXXXXXXXXXX";
+	private static final String API_URL = "http://192.168.10.146:8080/mobile-services/api";
+	private static final String CONSUMER_KEY = "com.viafirma.mobile.services";
+	private static final String CONSUMER_SECRET = "6832435885";
 	private static final String AUTH_MODE = "client_auth";
 	
-	private static final String MESSAGE_CODE = "XXXXXXXXXXXXX";
-	private static final String DOCUMENT_CODE = "XXXXXXXXXXXXX";
+	private static final String MESSAGE_CODE = "1428309995217R913";
+	private static final String DOCUMENT_CODE = "1428309995217R913D80";
 	private static final String POLICY_CODE = "XXXXXXXXXXXXX";
-	private static final String NOTIFICATION_CODE = "XXXXXXXXXXXXX";
-	private static final String NOTIFICATION_TOKEN = "XXXXXXXXXXXXX";
+	private static final String NOTIFICATION_CODE = "1428991991785";
 	private static final String SIGNATURE_CODE = "XXXXXXXXXXXXX";
 
 	private static final String newUserText = "testJunit";
@@ -92,7 +91,7 @@ public class ApiTest {
 			device.setDescription(DEVICE_DESCRIPTION);
 			device.setLocale(DEVICE_LOCALE);
 			device.setType(DEVICE_TYPE);
-			device.setUniqueIdentifier(DEVICE_TYPE);
+			device.setUniqueIdentifier(DEVICE_TYPE.name());
 			device = api.registerDevice(device);
 			Assert.assertNotNull(device);
 		} catch (ApiException e) {
@@ -158,8 +157,8 @@ public class ApiTest {
 
 			message.setPolicies(new ArrayList<Policy>());
 			Policy policy = new Policy();
-			policy.setTypeSign("ATTACHED");
-			policy.setTypeFormatSign("DIGITALIZED_SIGN");
+			policy.setTypeSign(TypeSignEnum.ATTACHED);
+			policy.setTypeFormatSign(TypeFormatSignEnum.DIGITALIZED_SIGN);
 			policy.setParamList(new ArrayList<Param>());
 
 			Param param01 = new Param();
@@ -214,25 +213,25 @@ public class ApiTest {
 	@Test
 	public void t06GetDocument() {
 		try {
-			byte[] result = api.getDocument("PREVIEW", MESSAGE_CODE, DOCUMENT_CODE);
+			byte[] result = api.getDocument("SIGNED", MESSAGE_CODE, DOCUMENT_CODE);
 			Assert.assertNotNull(result);
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
 		}
 	}
 
-	@Test
-	public void t07FindFormsByUser() {
-		try {
-			List<Form> forms = api.findFormsByUser(USER_CODE);
-			Assert.assertNotNull(forms);
-			Assert.assertFalse(forms.isEmpty());
-		} catch (ApiException e) {
-			Assert.assertNotNull(testApiException(e));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void t07FindFormsByUser() {
+//		try {
+//			List<Form> forms = api.findFormsByUser(USER_CODE);
+//			Assert.assertNotNull(forms);
+//			Assert.assertFalse(forms.isEmpty());
+//		} catch (ApiException e) {
+//			Assert.assertNotNull(testApiException(e));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Test
 	public void t08SendNotification() {
@@ -249,28 +248,28 @@ public class ApiTest {
 		}
 	}
 
-	@Test
-	public void t09FindNotificationsByTokenStatus() {
-		try {
-			Device device = api.findDeviceByIdentifier(DEVICE_IDENTIFIER);
-			List<Notification> notifications = api.findNotificationsByTokenStatus(device.getToken(), "DISPATCHED");
-			Assert.assertNotNull(notifications);
-			Assert.assertFalse(notifications.isEmpty());
-		} catch (ApiException e) {
-			Assert.assertNotNull(testApiException(e));
-		}
-	}
-
-	@Test
-	public void t10FindNotificationsByToken() {
-		try {
-			List<Notification> notifications = api.findNotificationsByToken(NOTIFICATION_TOKEN);
-			Assert.assertNotNull(notifications);
-			Assert.assertFalse(notifications.isEmpty());
-		} catch (ApiException e) {
-			Assert.assertNotNull(testApiException(e));
-		}
-	}
+//	@Test
+//	public void t09FindNotificationsByTokenStatus() {
+//		try {
+//			Device device = api.findDeviceByIdentifier(DEVICE_IDENTIFIER);
+//			List<Notification> notifications = api.findNotificationsByTokenStatus(device.getToken(), "DISPATCHED");
+//			Assert.assertNotNull(notifications);
+//			Assert.assertFalse(notifications.isEmpty());
+//		} catch (ApiException e) {
+//			Assert.assertNotNull(testApiException(e));
+//		}
+//	}
+//
+//	@Test
+//	public void t10FindNotificationsByToken() {
+//		try {
+//			List<Notification> notifications = api.findNotificationsByToken(NOTIFICATION_TOKEN);
+//			Assert.assertNotNull(notifications);
+//			Assert.assertFalse(notifications.isEmpty());
+//		} catch (ApiException e) {
+//			Assert.assertNotNull(testApiException(e));
+//		}
+//	}
 
 	@Test
 	public void t11FindNotificationsByCode() {

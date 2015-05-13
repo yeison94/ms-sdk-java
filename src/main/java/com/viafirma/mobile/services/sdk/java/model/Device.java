@@ -1,19 +1,36 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
-public class Device {
+
+import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+@ApiModel(description = "")
+public class Device  {
+  
   private String appCode = null;
   private String code = null;
   private String description = null;
   private String locale = null;
-  private String status = null;
-  //public enum statusEnum { ACTIVE, INACTIVE, }; 
+  public enum StatusEnum {
+     ACTIVE,  INACTIVE, 
+  };
+  private StatusEnum status = null;
   private String token = null;
   private String uniqueIdentifier = null;
-  private String type = null;
-  //public enum typeEnum { ANDROID, IOS, WP, }; 
+  public enum TypeEnum {
+     ANDROID,  IOS,  WP, 
+  };
+  private TypeEnum type = null;
   private String userEmail = null;
   private String userCode = null;
   private String userNationalId = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("appCode")
   public String getAppCode() {
     return appCode;
   }
@@ -21,6 +38,11 @@ public class Device {
     this.appCode = appCode;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("code")
   public String getCode() {
     return code;
   }
@@ -28,6 +50,11 @@ public class Device {
     this.code = code;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("description")
   public String getDescription() {
     return description;
   }
@@ -35,6 +62,11 @@ public class Device {
     this.description = description;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("locale")
   public String getLocale() {
     return locale;
   }
@@ -42,13 +74,23 @@ public class Device {
     this.locale = locale;
   }
 
-  public String getStatus() {
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("status")
+  public StatusEnum getStatus() {
     return status;
   }
-  public void setStatus(String status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("token")
   public String getToken() {
     return token;
   }
@@ -56,6 +98,11 @@ public class Device {
     this.token = token;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("uniqueIdentifier")
   public String getUniqueIdentifier() {
     return uniqueIdentifier;
   }
@@ -63,13 +110,23 @@ public class Device {
     this.uniqueIdentifier = uniqueIdentifier;
   }
 
-  public String getType() {
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("type")
+  public TypeEnum getType() {
     return type;
   }
-  public void setType(String type) {
+  public void setType(TypeEnum type) {
     this.type = type;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("userEmail")
   public String getUserEmail() {
     return userEmail;
   }
@@ -77,6 +134,11 @@ public class Device {
     this.userEmail = userEmail;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("userCode")
   public String getUserCode() {
     return userCode;
   }
@@ -84,6 +146,11 @@ public class Device {
     this.userCode = userCode;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("userNationalId")
   public String getUserNationalId() {
     return userNationalId;
   }
@@ -91,10 +158,13 @@ public class Device {
     this.userNationalId = userNationalId;
   }
 
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Device {\n");
+    
     sb.append("  appCode: ").append(appCode).append("\n");
     sb.append("  code: ").append(code).append("\n");
     sb.append("  description: ").append(description).append("\n");
@@ -110,4 +180,3 @@ public class Device {
     return sb.toString();
   }
 }
-

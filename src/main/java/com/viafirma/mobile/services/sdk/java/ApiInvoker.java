@@ -1,23 +1,13 @@
 package com.viafirma.mobile.services.sdk.java;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.Response.Status.Family;
-
-import org.apache.commons.io.IOUtils;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.sun.jersey.api.client.Client;
@@ -25,332 +15,256 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.api.client.filter.LoggingFilter;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.oauth.client.OAuthClientFilter;
 import com.sun.jersey.oauth.signature.OAuthParameters;
 import com.sun.jersey.oauth.signature.OAuthSecrets;
 
 public class ApiInvoker {
-	private static final ApiInvoker INSTANCE = new ApiInvoker();
-	private Map<String, Client> hostMap = new HashMap<String, Client>();
-	private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-	private boolean isDebug = false;
-	
-	private static final String OAUTH_TOKEN_EXPIRED = "code\":83";
-	private static final String OAUTH_TOKEN_REQUIRED = "code\":80";
-	private static final int INTERNAL_ERROR = 500;
+  private static ApiInvoker INSTANCE = new ApiInvoker();
+  private Map<String, Client> hostMap = new HashMap<String, Client>();
+  private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  private boolean isDebug = false;
+  
+  String basePath = null;
+  String consumerKey = null;
+  String consumerSecret = null;
+  String token = null;
+  String tokenSecret = null;
+  
+  public void setBasePath(String basePath) {
+    this.basePath = basePath;
+  }
 
-	public void enableDebug() {
-		isDebug = true;
-	}
+  public String getBasePath() {
+    return basePath;
+  }
+    
+  public void setConsumerKey(String consumerKey) {
+     this.consumerKey = consumerKey;
+  }
 
-	public static ApiInvoker getInstance() {
-		return INSTANCE;
-	}
+  public String getConsumerKey() {
+    return consumerKey;
+  }
 
-	public void addDefaultHeader(String key, String value) {
-		defaultHeaderMap.put(key, value);
-	}
+  public void setConsumerSecret(String consumerSecret) {
+    this.consumerSecret = consumerSecret;
+  }
 
-	public String escapeString(String str) {
-		try{
-			return URLEncoder.encode(str, "utf8").replaceAll("\\+", "%20");
-		}
-		catch(UnsupportedEncodingException e) {
-			return str;
-		}
-	}
+  public String getConsumerSecret() {
+    return consumerSecret;
+  }
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
-		try{
-			if("List".equals(containerType) || "Array".equals(containerType)) {
-				JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
-				List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
-				return response;
-			}
-			else if(String.class.equals(cls)) {
-				if(json != null && json.startsWith("\"") && json.endsWith("\"") && json.length() > 1) {
-					return json.substring(1, json.length() - 1);
-				} else {
-					return json;
-				}
-			}
-			else {
-				return JsonUtil.getJsonMapper().readValue(json, cls);
-			}
-		}
-		catch (IOException e) {
-			throw new ApiException(INTERNAL_ERROR, e.getMessage());
-		}
-	}
+  public String getToken() {
+    return token;
+  }
 
-	public static String serialize(Object obj) throws ApiException {
-		try {
-			if (obj != null) {
-				return JsonUtil.getJsonMapper().writeValueAsString(obj);
-			} else {
-				return null;
-			}
-		}
-		catch (Exception e) {
-			throw new ApiException(INTERNAL_ERROR, e.getMessage());
-		}
-	}
+  public void setToken(String token) {
+    this.token = token;
+  }
 
-	public String invokeJsonAPI(String host, String consumerKey, String consumerSecret, TokenHandler tokenHandler, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, Boolean validateResponse) throws ApiException {
-		String result;
+  public String getTokenSecret() {
+    return tokenSecret;
+  }
 
-		ClientResponse response;
-		try {
-			response = invokeAPI(host, consumerKey, consumerSecret, tokenHandler, path, method, queryParams, body, headerParams, formParams, contentType);
-		} catch (ApiException e) {
-			if(e.getMessage().contains(OAUTH_TOKEN_EXPIRED) || e.getMessage().contains(OAUTH_TOKEN_REQUIRED)) {
-				// token has expired or is required. Generate new token and try again
-				tokenHandler.generateNewToken();
-				response = invokeAPI(host, consumerKey, consumerSecret, tokenHandler, path, method, queryParams, body, headerParams, formParams, contentType);
-			} else {
-				throw e;
-			}
-		}
-		result = response.getEntity(String.class);
-		result = (String) ApiInvoker.deserialize(result, "", String.class);
-		if(validateResponse && hasValidSignature(response))
-		{
-			try {
+  public void setTokenSecret(String tokenSecret) {
+    this.tokenSecret = tokenSecret;
+  }
 
-				if(tokenHandler.getTokenSecret() != null){
-					validateRFC2104HMAC(result.getBytes("UTF-8"), tokenHandler.getTokenSecret(), response.getHeaders().get("Signature-Body").get(0));
-				}else{
-					validateRFC2104HMAC(result.getBytes("UTF-8"), consumerSecret, response.getHeaders().get("Signature-Body").get(0));
-				}
-			} catch (UnsupportedEncodingException e) {
-				throw new ApiException(INTERNAL_ERROR, "Unsupported encoding");
-			}
-		}
-		return result;
-	}
+  public void enableDebug() {
+    isDebug = true;
+  }
 
-	public byte[] invokeFileAPI(String host, String consumerKey, String consumerSecret, TokenHandler tokenHandler, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, Boolean validateResponse) throws ApiException {
-		try {
-			
-			ClientResponse response;
-			try {
-				response = invokeAPI(host, consumerKey, consumerSecret, tokenHandler, path, method, queryParams, body, headerParams, formParams, contentType);
-			} catch (ApiException e) {
-				if(e.getMessage().contains(OAUTH_TOKEN_EXPIRED) || e.getMessage().contains(OAUTH_TOKEN_REQUIRED)) {
-					// token has expired or is required. Generate new token and try again
-					tokenHandler.generateNewToken();
-					response = invokeAPI(host, consumerKey, consumerSecret, tokenHandler, path, method, queryParams, body, headerParams, formParams, contentType);
-				} else {
-					throw e;
-				}
-			}				
-				
-			byte[] resp = IOUtils.toByteArray(response.getEntityInputStream());
-			if(validateResponse && hasValidSignature(response))
-			{	
-				if(tokenHandler.getTokenSecret() != null){
-					validateRFC2104HMAC(resp, tokenHandler.getTokenSecret(), response.getHeaders().get("Signature-Body").get(0));
-				}else{
-					validateRFC2104HMAC(resp, consumerSecret, response.getHeaders().get("Signature-Body").get(0));
-				}
-			}
-			return resp;
-		} catch (IOException e) {
-			throw new ApiException(INTERNAL_ERROR, "Error getting file");
-		}
-	}
+  public static ApiInvoker getInstance() {
+    return INSTANCE;
+  }
 
-	/**
-	 * Check if this response contains Signature-Body header and if exists, is not empty
-	 * @param response 
-	 * @return true if "Signature-Body" header exists and is not empty, false otherwise
-	 */
-	public boolean hasValidSignature(ClientResponse response)
-	{
-		List<String> signatureBodyHeader=response.getHeaders().get("Signature-Body");
-		return signatureBodyHeader!=null && signatureBodyHeader.size()==1 && !signatureBodyHeader.get(0).trim().equals("");	
-	}
+  public void addDefaultHeader(String key, String value) {
+     defaultHeaderMap.put(key, value);
+  }
 
+  public String escapeString(String str) {
+    try{
+      return URLEncoder.encode(str, "utf8").replaceAll("\\+", "%20");
+    }
+    catch(UnsupportedEncodingException e) {
+      return str;
+    }
+  }
 
-	private ClientResponse invokeAPI(String host, String consumerKey, String consumerSecret, TokenHandler tokenHandler, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
-		Client client = getClient(host);
+  public static Object deserialize(String json, String containerType, Class cls) throws ApiException {
+    if(null != containerType) {
+        containerType = containerType.toLowerCase();
+    }
+    try{
+      if("list".equals(containerType) || "array".equals(containerType)) {
+        JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
+        List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
+        return response;
+      }
+      else if(String.class.equals(cls)) {
+        if(json != null && json.startsWith("\"") && json.endsWith("\"") && json.length() > 1)
+          return json.substring(1, json.length() - 2);
+        else
+          return json;
+      }
+      else {
+        return JsonUtil.getJsonMapper().readValue(json, cls);
+      }
+    }
+    catch (IOException e) {
+      throw new ApiException(500, e.getMessage());
+    }
+  }
 
-		StringBuilder b = new StringBuilder();
+  public static String serialize(Object obj) throws ApiException {
+    try {
+      if (obj != null)
+        return JsonUtil.getJsonMapper().writeValueAsString(obj);
+      else
+        return null;
+    }
+    catch (Exception e) {
+      throw new ApiException(500, e.getMessage());
+    }
+  }
 
-		for(String key : queryParams.keySet()) {
-			String value = queryParams.get(key);
-			if (value != null){
-				if(b.toString().length() == 0) {
-					b.append("?");
-				} else {
-					b.append("&");
-				}
-				b.append(escapeString(key)).append("=").append(escapeString(value));
-			}
-		}
+  public String invokeAPI(String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+    Client client = getClient(basePath);
 
-		String querystring = b.toString();
+    StringBuilder b = new StringBuilder();
 
-		OAuthParameters params = new OAuthParameters().signature("HAMC-SHA1").consumerKey(consumerKey);
-		if (tokenHandler.getToken() != null) {
-			params.setToken(tokenHandler.getToken());
-		}
-		OAuthSecrets secrets = new OAuthSecrets().consumerSecret(consumerSecret);
-		if (tokenHandler.getTokenSecret() != null) {
-			secrets.setTokenSecret(tokenHandler.getTokenSecret());
-		}
-		OAuthClientFilter filter = new OAuthClientFilter(client.getProviders(), params, secrets);
-		WebResource resource = client.resource(host + path + querystring);
-		resource.addFilter(filter);
-		Builder builder = resource.accept("application/json");
+    for(String key : queryParams.keySet()) {
+      String value = queryParams.get(key);
+      if (value != null){
+        if(b.toString().length() == 0)
+          b.append("?");
+        else
+          b.append("&");
+        b.append(escapeString(key)).append("=").append(escapeString(value));
+      }
+    }
+    
+    String querystring = b.toString();
+    
+    OAuthParameters params = new OAuthParameters().signature("HAMC-SHA1").consumerKey(consumerKey);
+    
+    if (token != null) {
+       params.setToken(token);
+    }
+    
+    OAuthSecrets secrets = new OAuthSecrets().consumerSecret(consumerSecret);
+    if (tokenSecret != null) {
+       secrets.setTokenSecret(tokenSecret);
+    }
+    
+    OAuthClientFilter filter = new OAuthClientFilter(client.getProviders(), params, secrets);
+    WebResource resource = client.resource(basePath + path + querystring);
+    resource.addFilter(filter);
 
-		for(String key : headerParams.keySet()) {
-			builder.header(key, headerParams.get(key));
-		}
+    Builder builder = resource.accept("application/json");
+    
+    for(String key : headerParams.keySet()) {
+      builder.header(key, headerParams.get(key));
+    }
 
-		for(String key : defaultHeaderMap.keySet()) {
-			if(!headerParams.containsKey(key)) {
-				builder.header(key, defaultHeaderMap.get(key));
-			}
-		}
-		ClientResponse response = null;
+    for(String key : defaultHeaderMap.keySet()) {
+      if(!headerParams.containsKey(key)) {
+        builder.header(key, defaultHeaderMap.get(key));
+      }
+    }
+    ClientResponse response = null;
 
-		if("GET".equals(method)) {
-			response = builder.get(ClientResponse.class);
-		}
-		else if ("POST".equals(method)) {
-			if("application/x-www-form-urlencoded".equals(contentType)) {
-				StringBuilder formParamBuilder = new StringBuilder();
+    if("GET".equals(method)) {
+      response = (ClientResponse) builder.get(ClientResponse.class);
+    }else if ("POST".equals(method)) {
+       if("application/x-www-form-urlencoded".equals(contentType)) {
+            StringBuilder formParamBuilder = new StringBuilder();
 
-				// encode the form params
-				for(String key : formParams.keySet()) {
-					String value = formParams.get(key);
-					if(value != null && !"".equals(value.trim())) {
-						if(formParamBuilder.length() > 0) {
-							formParamBuilder.append("&");
-						}
+            // encode the form params
+            for(String key : formParams.keySet()) {
+                String value = formParams.get(key);
+                if(value != null && !"".equals(value.trim())) {
+                    if(formParamBuilder.length() > 0) {
+                        formParamBuilder.append("&");
+                    }
 
-						try {
-							formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
-						}
-						catch (UnsupportedEncodingException IGNORE) {
-							// move on to next
-						}
-					}
-				}
-				response = builder.type(contentType).post(ClientResponse.class, formParamBuilder.toString());
-			}else{
-				response = builder.type(contentType).post(ClientResponse.class, serialize(body));
-			}
-		}
-		else if ("PUT".equals(method)) {
-			if(body == null) {
-				response = builder.put(ClientResponse.class, serialize(body));
-			} else {
-				if("application/x-www-form-urlencoded".equals(contentType)) {
-					StringBuilder formParamBuilder = new StringBuilder();
+                    try {
+                        formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
+                    }
+                    catch (Exception e) {
+                        // move on to next
+                    }
+                }
+            }
+            response = builder.type(contentType).post(ClientResponse.class, formParamBuilder.toString());
+      }else if(body == null) {
+            response = builder.post(ClientResponse.class, null);
+      } else if(body instanceof FormDataMultiPart) {
+            response = builder.type(contentType).post(ClientResponse.class, body);
+      } else {
+            response = builder.type(contentType).post(ClientResponse.class, serialize(body));
+        }
+    }
+    else if ("PUT".equals(method)) {
+        if("application/x-www-form-urlencoded".equals(contentType)) {
+            StringBuilder formParamBuilder = new StringBuilder();
 
-					// encode the form params
-					for(String key : formParams.keySet()) {
-						String value = formParams.get(key);
-						if(value != null && !"".equals(value.trim())) {
-							if(formParamBuilder.length() > 0) {
-								formParamBuilder.append("&");
-							}
-							try {
-								formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
-							}
-							catch (UnsupportedEncodingException IGNORE) {
-								// move on to next
-							}
-						}
-					}
-					response = builder.type(contentType).put(ClientResponse.class, formParamBuilder.toString());
-				} else {
-					response = builder.type(contentType).put(ClientResponse.class, serialize(body));
-				}
-			}
-		}
-		else if ("DELETE".equals(method)) {
-			if(body == null) {
-				response = builder.delete(ClientResponse.class, serialize(body));
-			} else {
-				response = builder.type(contentType).delete(ClientResponse.class, serialize(body));
-			}
-		}
-		else {
-			throw new ApiException(INTERNAL_ERROR, "unknown method type " + method);
-		}
-		if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
-			return null;
-		}
-		else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
-			return response;
-		}
-		else {
-			throw new ApiException(
-					response.getClientResponseStatus().getStatusCode(),
-					response.getEntity(String.class));
-		}
-	}
+            // encode the form params
+            for(String key : formParams.keySet()) {
+                String value = formParams.get(key);
+                if(value != null && !"".equals(value.trim())) {
+                    if(formParamBuilder.length() > 0) {
+                        formParamBuilder.append("&");
+                    }
 
-	public void validateRFC2104HMAC(byte[] data, String key, String hash) throws ApiException {
+                    try {
+                        formParamBuilder.append(URLEncoder.encode(key, "utf8")).append("=").append(URLEncoder.encode(value, "utf8"));
+                    }
+                    catch (Exception e) {
+                        // move on to next
+                    }
+                }
+            }
+            response = builder.type(contentType).put(ClientResponse.class, formParamBuilder.toString());
+      }else if(body == null) {
+            response = builder.put(ClientResponse.class, null);
+      } else if(body instanceof FormDataMultiPart) {
+            response = builder.type(contentType).put(ClientResponse.class, body);
+      } else {
+            response = builder.type(contentType).put(ClientResponse.class, serialize(body));
+        }
+    }
+    else if ("DELETE".equals(method)) {
+      if(body == null)
+        response = builder.delete(ClientResponse.class, serialize(body));
+      else
+        response = builder.type(contentType).delete(ClientResponse.class, serialize(body));
+    }
+    else {
+      throw new ApiException(500, "unknown method type " + method);
+    }
+    if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
+      return null;
+    }
+    else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
+      return (String) response.getEntity(String.class);
+    }
+    else {
+      throw new ApiException(
+                response.getClientResponseStatus().getStatusCode(),
+                response.getEntity(String.class));
+    }
+  }
 
-		try {
-			String signature = calculateRFC2104HMAC(data, key);
-			if(!hash.equals(signature)){
-				throw new ApiException(INTERNAL_ERROR, "Invalid HmacSHA1");
-			}
-		} catch (NoSuchAlgorithmException e) {
-			throw new ApiException(INTERNAL_ERROR, "No Such Algorithm");
-		} catch (InvalidKeyException e) {
-			throw new ApiException(INTERNAL_ERROR, "Invalid Key");
-		} catch (SignatureException e) {
-			throw new ApiException(INTERNAL_ERROR, "Invalid Signature");
-		}
-
-	}
-
-	public String calculateRFC2104HMAC(byte[] data, String key)
-			throws SignatureException, NoSuchAlgorithmException, InvalidKeyException
-	{
-		SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA1");
-		Mac mac = Mac.getInstance("HmacSHA1");
-		mac.init(signingKey);
-		String signature = toHexString(mac.doFinal(data));
-		return signature;
-	}
-
-	private String toHexString(byte[] bytes) {
-
-		Formatter formatter = new Formatter();
-
-		for (byte b : bytes) {
-			formatter.format("%02x", b);
-		}
-		String hexString = new String(formatter.toString());
-		formatter.close();
-
-		return hexString;
-	}
-
-	private Client getClient(String host) {
-		if(!hostMap.containsKey(host)) {
-			Client client = Client.create();
-			if(isDebug) {
-				client.addFilter(new LoggingFilter());
-			}
-			hostMap.put(host, client);
-		}
-		return hostMap.get(host);
-	}
-
-	public interface TokenHandler {
-		public void generateNewToken() throws ApiException;
-		public String getToken();
-		public String getTokenSecret();
-	}
-
+  private Client getClient(String host) {
+    if(!hostMap.containsKey(host)) {
+      Client client = Client.create();
+      if(isDebug)
+        client.addFilter(new LoggingFilter());
+      hostMap.put(host, client);
+    }
+    return hostMap.get(host);
+  }
 }
-

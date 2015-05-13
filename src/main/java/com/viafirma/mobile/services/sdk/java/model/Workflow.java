@@ -1,16 +1,29 @@
 package com.viafirma.mobile.services.sdk.java.model;
 
 import java.util.Date;
-import java.util.*;
 import com.viafirma.mobile.services.sdk.java.model.EventHistory;
-public class Workflow {
+import java.util.*;
+
+import com.wordnik.swagger.annotations.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+@ApiModel(description = "")
+public class Workflow  {
+  
   private String code = null;
   private String current = null;
   private String next = null;
-  private List<EventHistory> history = new ArrayList<EventHistory>();
+  private List<EventHistory> history = new ArrayList<EventHistory>() ;
   private Date initiate = null;
   private Date lastUpdated = null;
   private Date expires = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("code")
   public String getCode() {
     return code;
   }
@@ -18,6 +31,11 @@ public class Workflow {
     this.code = code;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("current")
   public String getCurrent() {
     return current;
   }
@@ -25,6 +43,11 @@ public class Workflow {
     this.current = current;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("next")
   public String getNext() {
     return next;
   }
@@ -32,6 +55,11 @@ public class Workflow {
     this.next = next;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("history")
   public List<EventHistory> getHistory() {
     return history;
   }
@@ -39,6 +67,11 @@ public class Workflow {
     this.history = history;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("initiate")
   public Date getInitiate() {
     return initiate;
   }
@@ -46,6 +79,11 @@ public class Workflow {
     this.initiate = initiate;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("lastUpdated")
   public Date getLastUpdated() {
     return lastUpdated;
   }
@@ -53,6 +91,11 @@ public class Workflow {
     this.lastUpdated = lastUpdated;
   }
 
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("expires")
   public Date getExpires() {
     return expires;
   }
@@ -60,10 +103,13 @@ public class Workflow {
     this.expires = expires;
   }
 
+  
+
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Workflow {\n");
+    
     sb.append("  code: ").append(code).append("\n");
     sb.append("  current: ").append(current).append("\n");
     sb.append("  next: ").append(next).append("\n");
@@ -75,4 +121,3 @@ public class Workflow {
     return sb.toString();
   }
 }
-
