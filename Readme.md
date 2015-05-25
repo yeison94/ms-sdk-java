@@ -43,17 +43,17 @@ api.setConsumerKey(consumerKey);
 api.setConsumerSecret(consumerSecret);
 
 // Solicitar un nuevo token
-Token token = api.requestToken();
+Token token = V1oauthApi.getInstance().requestToken();
 api.setToken(token.getOauth_token());
 api.setTokenSecret(token.getOauth_token_secret());
 
 // Aceptar el token recibido
-token = api.accessToken(userCode, userPass, "client_auth");
+token = V1oauthApi.getInstance().accessToken(userCode, userPass, "client_auth");
 api.setToken(token.getOauth_token());
 api.setTokenSecret(token.getOauth_token_secret());
 
 // Ejemplo de como recuperar un message conocido su código
-Message message = api.getMessageByCode("1400834631788R255");
+Message message = V1messagesApi.getInstance().getMessageByCode("1400834631788R255");
 ````
 
 #### Ejemplo de envio de mensaje para solo generar documentos pdf
@@ -122,5 +122,5 @@ document.setItems(items);
 message.setDocument(document);
 
 //Send message
-String messageCode = api.sendMessage(message);
+String messageCode = V1messagesApi.getInstance().sendMessage(message);
 ````
