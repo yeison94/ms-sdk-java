@@ -1,14 +1,21 @@
 package com.viafirma.mobile.services.sdk.java.api;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.viafirma.mobile.services.sdk.java.ApiException;
+import com.viafirma.mobile.services.sdk.java.ApiInvoker;
+
+import com.viafirma.mobile.services.sdk.java.model.*;
+
+import java.util.*;
+
+import com.viafirma.mobile.services.sdk.java.model.Evidence;
+
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 import javax.ws.rs.core.MediaType;
 
-import com.sun.jersey.multipart.FormDataMultiPart;
-import com.viafirma.mobile.services.sdk.java.ApiException;
-import com.viafirma.mobile.services.sdk.java.ApiInvoker;
-import com.viafirma.mobile.services.sdk.java.model.Evidence;
+import java.io.File;
+import java.util.Map;
+import java.util.HashMap;
 
 public class V1evidencesApi {
 
@@ -20,12 +27,12 @@ public class V1evidencesApi {
   
   
     
-  public Evidence update (String messageCode, String policyCode, String evidenceCode, String imageBase64, String metadata, String fingerID, String algorithmic) throws ApiException {
+  public Evidence sendEvidence (String messageCode, String policyCode, String evidenceCode, String imageBase64, String metadata, String fingerID, String algorithmic) throws ApiException {
     Object postBody = null;
     
 
     // create path and map variables
-    String path = "/v1/evidences/".replaceAll("\\{format\\}","json");
+    String path = "/v1/evidences".replaceAll("\\{format\\}","json");
 
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();

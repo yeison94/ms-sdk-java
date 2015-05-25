@@ -13,6 +13,7 @@ public class TemplateList  {
   private String title = null;
   private String description = null;
   private Date creationDate = null;
+  private Integer version = null;
 
   
   /**
@@ -63,6 +64,18 @@ public class TemplateList  {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("version")
+  public Integer getVersion() {
+    return version;
+  }
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -73,6 +86,7 @@ public class TemplateList  {
     sb.append("  title: ").append(title).append("\n");
     sb.append("  description: ").append(description).append("\n");
     sb.append("  creationDate: ").append(creationDate).append("\n");
+    sb.append("  version: ").append(version).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

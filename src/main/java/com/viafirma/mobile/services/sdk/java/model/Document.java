@@ -15,6 +15,7 @@ public class Document  {
   private String draftedCode = null;
   private String draftedReference = null;
   private String signedCode = null;
+  private String signedID = null;
   private String signedReference = null;
   public enum TemplateTypeEnum {
      docx,  odt,  url, 
@@ -82,6 +83,18 @@ public class Document  {
   }
   public void setSignedCode(String signedCode) {
     this.signedCode = signedCode;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("signedID")
+  public String getSignedID() {
+    return signedID;
+  }
+  public void setSignedID(String signedID) {
+    this.signedID = signedID;
   }
 
   
@@ -156,6 +169,7 @@ public class Document  {
     sb.append("  draftedCode: ").append(draftedCode).append("\n");
     sb.append("  draftedReference: ").append(draftedReference).append("\n");
     sb.append("  signedCode: ").append(signedCode).append("\n");
+    sb.append("  signedID: ").append(signedID).append("\n");
     sb.append("  signedReference: ").append(signedReference).append("\n");
     sb.append("  templateType: ").append(templateType).append("\n");
     sb.append("  formRequired: ").append(formRequired).append("\n");

@@ -38,16 +38,16 @@ public class ApiTest {
 	private static final String TEMPLATE_CODE = "001_example";
 	private static final TemplateTypeEnum TEMPLATE_TYPE = TemplateTypeEnum.docx;
 	
-	private static final String USER_CODE = "marina";
-	private static final String USER_PASSWORD = "marina";
+	private static final String USER_CODE = "user_code";
+	private static final String USER_PASSWORD = "user_pass";
 	
-	private static final String DEVICE_CODE = "testmarina";
+	private static final String DEVICE_CODE = "device_code";
 	private static final String DEVICE_DESCRIPTION = "Device for JUnit test";
 	private static final String DEVICE_LOCALE = "es_ES";
 	private static final TypeEnum DEVICE_TYPE = TypeEnum.IOS;
 	private static final String DEVICE_IDENTIFIER = "DDC0EB02-88D6-402F-91C6-1C0E09185C13";
 	
-	private static final String API_URL = "http://192.168.10.146:8080/mobile-services/api";
+	private static final String API_URL = "http://localhost/mobile-services/api";
 	private static final String CONSUMER_KEY = "com.viafirma.mobile.services";
 	private static final String CONSUMER_SECRET = "6832435885";
 	private static final String AUTH_MODE = "client_auth";
@@ -91,7 +91,7 @@ public class ApiTest {
 			device.setDescription(DEVICE_DESCRIPTION);
 			device.setLocale(DEVICE_LOCALE);
 			device.setType(DEVICE_TYPE);
-			device.setUniqueIdentifier(DEVICE_TYPE.name());
+			device.setUniqueIdentifier(DEVICE_IDENTIFIER);
 			device = api.registerDevice(device);
 			Assert.assertNotNull(device);
 		} catch (ApiException e) {

@@ -1,24 +1,32 @@
 package com.viafirma.mobile.services.sdk.java;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.core.JsonGenerator.Feature;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import javax.ws.rs.core.Response.Status.Family;
-
-import com.fasterxml.jackson.databind.JavaType;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.WebResource.Builder;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.LoggingFilter;
+import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.multipart.FormDataMultiPart;
+
+import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.oauth.client.OAuthClientFilter;
 import com.sun.jersey.oauth.signature.OAuthParameters;
 import com.sun.jersey.oauth.signature.OAuthSecrets;
+
+import javax.ws.rs.core.Response.Status.Family;
+import javax.ws.rs.core.MediaType;
+
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.io.UnsupportedEncodingException;
 
 public class ApiInvoker {
   private static ApiInvoker INSTANCE = new ApiInvoker();
@@ -207,7 +215,7 @@ public class ApiInvoker {
             response = builder.type(contentType).post(ClientResponse.class, serialize(body));
         }
     }
-    else if ("PUT".equals(method)) {
+     else if ("PUT".equals(method)) {
         if("application/x-www-form-urlencoded".equals(contentType)) {
             StringBuilder formParamBuilder = new StringBuilder();
 

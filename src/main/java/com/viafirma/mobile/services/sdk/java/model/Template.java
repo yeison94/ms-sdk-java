@@ -15,6 +15,7 @@ public class Template  {
   private String description = null;
   private Date creationDate = null;
   private Form form = null;
+  private String version = null;
 
   
   /**
@@ -77,6 +78,18 @@ public class Template  {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("version")
+  public String getVersion() {
+    return version;
+  }
+  public void setVersion(String version) {
+    this.version = version;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -88,6 +101,7 @@ public class Template  {
     sb.append("  description: ").append(description).append("\n");
     sb.append("  creationDate: ").append(creationDate).append("\n");
     sb.append("  form: ").append(form).append("\n");
+    sb.append("  version: ").append(version).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
