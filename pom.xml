@@ -147,4 +147,12 @@
     <junit-version>4.8.1</junit-version>
     <jersey-version>1.7</jersey-version>
   </properties>
+  
+  <distributionManagement>
+        <repository>
+            <id>viavansi</id>
+            <name>Viavansi Repository</name>
+            <url>http://repositorio.viavansi.com/libs-releases-local</url>
+        </repository>
+    </distributionManagement>
 </project>
