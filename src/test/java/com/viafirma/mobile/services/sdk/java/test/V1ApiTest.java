@@ -46,16 +46,17 @@ public class V1ApiTest {
     private static final String TEMPLATE_CODE = "001_example";
     private static final TemplateTypeEnum TEMPLATE_TYPE = TemplateTypeEnum.docx;
 
-    private static final String USER_CODE = "user_code";
-    private static final String USER_PASSWORD = "user_pass";
+    private static final String USER_CODE = "XXXXXXX";
+    private static final String USER_PASSWORD = "XXXXXXX";
     private static final String DEVICE_IDENTIFIER = "DDC0EB02-88D6-402F-91C6-1C0E09185C13";
 
+    private static final OAuthType oauthType = OAuthType.OAUTH_APPLICATION;
     private static final String API_URL = "http://localhost/mobile-services/api";
-    private static final String CONSUMER_KEY = "com.viafirma.mobile.services";
-    private static final String CONSUMER_SECRET = "6832435885";
+    private static final String CONSUMER_KEY = "com.viafirma.mobile.services.crm";
+    private static final String CONSUMER_SECRET = "XXXXXXXX";
     private static final String AUTH_MODE = "client_auth";
 
-    private static final String MESSAGE_CODE = "1428309995217R913";
+    private static final String MESSAGE_CODE = "XXXXXXXXXX";
 
     @BeforeClass
     public static void setupOnce() {
@@ -65,11 +66,12 @@ public class V1ApiTest {
             api.setConsumerKey(CONSUMER_KEY);
             api.setConsumerSecret(CONSUMER_SECRET);
 
-            api.setUser(USER_CODE);
-            api.setPassword(USER_PASSWORD);
-            api.setAuth_mode(AUTH_MODE);
-
-            api.generateNewToken();
+            if (oauthType == OAuthType.OAUTH_USER) {
+                api.setUser(USER_CODE);
+                api.setPassword(USER_PASSWORD);
+                api.setAuth_mode(AUTH_MODE);
+                api.generateNewToken();
+            }
 
         } catch (ApiException e) {
             Assert.assertEquals(e.getCode(), 401);

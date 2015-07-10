@@ -14,6 +14,8 @@ import com.viafirma.mobile.services.sdk.java.model.Device;
 import com.viafirma.mobile.services.sdk.java.model.Message;
 import com.viafirma.mobile.services.sdk.java.model.Notification;
 import com.viafirma.mobile.services.sdk.java.model.Policy;
+import com.viafirma.mobile.services.sdk.java.model.Template;
+import com.viafirma.mobile.services.sdk.java.model.TemplateList;
 import com.viafirma.mobile.services.sdk.java.model.Token;
 import com.viafirma.mobile.services.sdk.java.model.User;
 
@@ -118,13 +120,14 @@ public class V1Api {
     public void generateNewToken() throws ApiException {
         setToken(null);
         setTokenSecret(null);
+        
         Token token = requestToken();
         setToken(token.getOauth_token());
         setTokenSecret(token.getOauth_token_secret());
-
         token = accessToken(user, password, auth_mode);
         setToken(token.getOauth_token());
         setTokenSecret(token.getOauth_token_secret());
+        
     }
 
     public Device findDeviceByIdentifier(String identifier) throws ApiException {
@@ -224,5 +227,13 @@ public class V1Api {
 
     public Token accessToken(String x_auth_username, String x_auth_password, String x_auth_mode) throws ApiException {
         return V1oauthApi.getInstance().accessToken(x_auth_mode, x_auth_username, x_auth_password);
+    }
+    
+    public List<TemplateList> findTemplatesByUser(String userCode) throws ApiException {
+        return V1templateApi.getInstance().findTemplatesByUser(userCode);
+    }
+    
+    public Template findTemplateByCode(String templateCode) throws ApiException {
+        return V1templateApi.getInstance().findTemplateByCode(templateCode);
     }
 }
