@@ -33,6 +33,7 @@ public class Item  {
   private String minLength = null;
   private List<String> monthNames = new ArrayList<String>() ;
   private List<String> dayNames = new ArrayList<String>() ;
+  private Integer increment = null;
 
   
   /**
@@ -323,6 +324,18 @@ public class Item  {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("increment")
+  public Integer getIncrement() {
+    return increment;
+  }
+  public void setIncrement(Integer increment) {
+    this.increment = increment;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -353,6 +366,7 @@ public class Item  {
     sb.append("  minLength: ").append(minLength).append("\n");
     sb.append("  monthNames: ").append(monthNames).append("\n");
     sb.append("  dayNames: ").append(dayNames).append("\n");
+    sb.append("  increment: ").append(increment).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

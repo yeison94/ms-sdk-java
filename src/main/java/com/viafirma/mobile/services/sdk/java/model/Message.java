@@ -3,6 +3,7 @@ package com.viafirma.mobile.services.sdk.java.model;
 import com.viafirma.mobile.services.sdk.java.model.Document;
 import com.viafirma.mobile.services.sdk.java.model.Param;
 import com.viafirma.mobile.services.sdk.java.model.Workflow;
+import java.util.Date;
 import com.viafirma.mobile.services.sdk.java.model.Policy;
 import com.viafirma.mobile.services.sdk.java.model.ErrorResponse;
 import java.util.*;
@@ -29,6 +30,9 @@ public class Message  {
   private String callbackMails = null;
   private List<String> callbackMailsFormKeys = new ArrayList<String>() ;
   private ErrorResponse error = null;
+  private String pid = null;
+  private String server = null;
+  private Date processTimeExpired = null;
   private String commentReject = null;
 
   
@@ -203,6 +207,42 @@ public class Message  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
+  @JsonProperty("pid")
+  public String getPid() {
+    return pid;
+  }
+  public void setPid(String pid) {
+    this.pid = pid;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("server")
+  public String getServer() {
+    return server;
+  }
+  public void setServer(String server) {
+    this.server = server;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("processTimeExpired")
+  public Date getProcessTimeExpired() {
+    return processTimeExpired;
+  }
+  public void setProcessTimeExpired(Date processTimeExpired) {
+    this.processTimeExpired = processTimeExpired;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
   @JsonProperty("commentReject")
   public String getCommentReject() {
     return commentReject;
@@ -232,6 +272,9 @@ public class Message  {
     sb.append("  callbackMails: ").append(callbackMails).append("\n");
     sb.append("  callbackMailsFormKeys: ").append(callbackMailsFormKeys).append("\n");
     sb.append("  error: ").append(error).append("\n");
+    sb.append("  pid: ").append(pid).append("\n");
+    sb.append("  server: ").append(server).append("\n");
+    sb.append("  processTimeExpired: ").append(processTimeExpired).append("\n");
     sb.append("  commentReject: ").append(commentReject).append("\n");
     sb.append("}\n");
     return sb.toString();

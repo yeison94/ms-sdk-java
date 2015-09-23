@@ -12,6 +12,7 @@ public class Document  {
   
   private String templateCode = null;
   private String templateReference = null;
+  private Integer templateVersion = null;
   private String draftedCode = null;
   private String draftedReference = null;
   private String signedCode = null;
@@ -47,6 +48,18 @@ public class Document  {
   }
   public void setTemplateReference(String templateReference) {
     this.templateReference = templateReference;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("templateVersion")
+  public Integer getTemplateVersion() {
+    return templateVersion;
+  }
+  public void setTemplateVersion(Integer templateVersion) {
+    this.templateVersion = templateVersion;
   }
 
   
@@ -166,6 +179,7 @@ public class Document  {
     
     sb.append("  templateCode: ").append(templateCode).append("\n");
     sb.append("  templateReference: ").append(templateReference).append("\n");
+    sb.append("  templateVersion: ").append(templateVersion).append("\n");
     sb.append("  draftedCode: ").append(draftedCode).append("\n");
     sb.append("  draftedReference: ").append(draftedReference).append("\n");
     sb.append("  signedCode: ").append(signedCode).append("\n");

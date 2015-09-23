@@ -12,6 +12,7 @@ public class SystemStatus  {
   private String description = null;
   private String status = null;
   private String message = null;
+  private String notification = null;
 
   
   /**
@@ -62,6 +63,18 @@ public class SystemStatus  {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(required = false, value = "")
+  @JsonProperty("notification")
+  public String getNotification() {
+    return notification;
+  }
+  public void setNotification(String notification) {
+    this.notification = notification;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -72,6 +85,7 @@ public class SystemStatus  {
     sb.append("  description: ").append(description).append("\n");
     sb.append("  status: ").append(status).append("\n");
     sb.append("  message: ").append(message).append("\n");
+    sb.append("  notification: ").append(notification).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
