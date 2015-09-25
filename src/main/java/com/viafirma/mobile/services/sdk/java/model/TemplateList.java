@@ -13,7 +13,7 @@ public class TemplateList  {
   private String title = null;
   private String description = null;
   private Date creationDate = null;
-  private Integer version = null;
+  private String version = null;
 
   
   /**
@@ -68,10 +68,10 @@ public class TemplateList  {
    **/
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("version")
-  public Integer getVersion() {
+  public String getVersion() {
     return version;
   }
-  public void setVersion(Integer version) {
+  public void setVersion(String version) {
     this.version = version;
   }
 
