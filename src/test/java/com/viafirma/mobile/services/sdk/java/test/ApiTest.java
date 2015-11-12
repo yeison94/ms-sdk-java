@@ -29,6 +29,7 @@ import com.viafirma.mobile.services.sdk.java.model.Policy.TypeSignEnum;
 import com.viafirma.mobile.services.sdk.java.model.Template;
 import com.viafirma.mobile.services.sdk.java.model.TemplateList;
 import com.viafirma.mobile.services.sdk.java.model.User;
+import com.viafirma.mobile.services.sdk.java.model.Workflow;
 
 enum OAuthType{
     OAUTH_APPLICATION,
@@ -335,7 +336,62 @@ public class ApiTest {
 		}
 
 	}
+	
+	@Test
+    public void t16CreateDocument() throws Exception {
+	
+	    try {
+            
+            Message message = new Message();
+           
+            Workflow workflow = new Workflow();
+            workflow.setCode("EX005");
+            
+            Document document = new Document();
+            document.setTemplateCode(TEMPLATE_CODE);
+            document.setTemplateType(TEMPLATE_TYPE);
+            document.setItems(new ArrayList<Item>());
 
+            Item item01 = new Item();
+            item01.setKey("KEY_01");
+            item01.setValue("Jhon");
+            document.getItems().add(item01);
+
+            Item item02 = new Item();
+            item02.setKey("KEY_02");
+            item02.setValue("Doe");
+            document.getItems().add(item02);
+
+            Item item03 = new Item();
+            item03.setKey("KEY_03");
+            item03.setValue("11111111T");
+            document.getItems().add(item03);
+
+            message.setDocument(document);
+
+            String messageCode = api.sendMessage(message);
+            Assert.assertNotNull(messageCode);
+            
+            int count = 100;
+            String status = null;
+            while (count > 0) {
+                count--;
+                Message msg = api.getMessageByCode(messageCode);
+                status = msg.getWorkflow().getCurrent();
+
+                if ("RESPONSED".equals(status)) {
+                    String documentCode = msg.getDocument().getDraftedCode();
+                    byte[] pdf = api.getDocument("temporal", messageCode, documentCode);
+                    Assert.assertNotNull(pdf);
+                } else {
+                    Thread.sleep(1000);
+                }
+            }
+        } catch (ApiException e) {
+            Assert.assertNotNull(testApiException(e));
+        }
+    }
+	
 	public ErrorResponse testApiException(ApiException e) {
 		try {
 			Assert.assertFalse(e.getMessage().contains("<"));
