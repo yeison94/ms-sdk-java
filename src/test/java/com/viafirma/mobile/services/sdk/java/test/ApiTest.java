@@ -57,7 +57,7 @@ public class ApiTest {
 	private static final OAuthType oauthType = OAuthType.OAUTH_APPLICATION;
 	private static final String API_URL = "http://localhost/mobile-services/api";
 	private static final String CONSUMER_KEY = "com.viafirma.mobile.services.crm";
-	private static final String CONSUMER_SECRET = "XXXXXXXX";
+	private static final String CONSUMER_SECRET = "XXXXXXXXXX";
 	private static final String AUTH_MODE = "client_auth";
 	
 	private static final String MESSAGE_CODE = "XXXXXXXXXX";
@@ -343,9 +343,16 @@ public class ApiTest {
 	    try {
             
             Message message = new Message();
+            
+            // Create notification info
+            Notification notification = new Notification();
+            notification.setText("Title");
+            notification.setDetail("Detail");
+            message.setNotification(notification);
            
             Workflow workflow = new Workflow();
             workflow.setCode("EX005");
+            message.setWorkflow(workflow);
             
             Document document = new Document();
             document.setTemplateCode(TEMPLATE_CODE);
@@ -370,6 +377,7 @@ public class ApiTest {
             message.setDocument(document);
 
             String messageCode = api.sendMessage(message);
+            System.out.println(messageCode);
             Assert.assertNotNull(messageCode);
             
             int count = 100;
