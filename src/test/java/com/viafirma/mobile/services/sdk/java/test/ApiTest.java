@@ -339,7 +339,9 @@ public class ApiTest {
 	
 	@Test
     public void t16CreateDocument() throws Exception {
-	
+	    
+	    // Build a new document (PDF) from a template. This user case implements EX005 workflow code, usseful to print 
+	    // your document when iOS/Android devices are not availables.
 	    try {
             
             Message message = new Message();
@@ -351,7 +353,7 @@ public class ApiTest {
             message.setNotification(notification);
            
             Workflow workflow = new Workflow();
-            workflow.setCode("EX005");
+            workflow.setCode("EX005"); // only generate PDF from template. It´s not sent to mobile devices.
             message.setWorkflow(workflow);
             
             Document document = new Document();
