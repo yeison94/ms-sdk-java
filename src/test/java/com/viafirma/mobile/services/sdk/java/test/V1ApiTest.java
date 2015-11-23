@@ -88,7 +88,7 @@ public class V1ApiTest {
         try {
             //BEGIN-SNIPPET: api_v1_user_devices
             List<Device> devices = V1devicesApi.getInstance().findDeviceByUser(USER_CODE);
-            //END_SNIPPET
+            //END-SNIPPET
             Assert.assertNotNull(devices);
         } catch (ApiException e) {
             Assert.assertNotNull(testApiException(e));
@@ -100,7 +100,7 @@ public class V1ApiTest {
         try {
             //BEGIN-SNIPPET: api_v1_find_user_templates
             List<TemplateList> templates = V1templateApi.getInstance().findTemplatesByUser(USER_CODE);
-            //END_SNIPPET
+            //END-SNIPPET
             Assert.assertNotNull(templates);
         } catch (ApiException e) {
             Assert.assertNotNull(testApiException(e));
