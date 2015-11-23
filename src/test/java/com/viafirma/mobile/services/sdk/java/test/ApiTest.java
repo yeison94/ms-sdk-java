@@ -404,6 +404,58 @@ public class ApiTest {
         }
     }
 	
+	public void t17CreateMessageWithTemplate() throws Exception {
+        
+        try {
+            
+            Message message = new Message();
+            
+            // Create notification info
+            Notification notification = new Notification();
+            notification.setText("Title");
+            notification.setDetail("Detail");
+            
+            // Find user device
+            Device device = api.findDeviceByUser(USER_CODE).get(0);
+            notification.setDevices(new ArrayList<Device>());
+            notification.getDevices().add(device);
+            message.setNotification(notification);
+           
+            Document document = new Document();
+            document.setTemplateCode(TEMPLATE_CODE);
+            document.setTemplateType(TEMPLATE_TYPE);
+            document.setItems(new ArrayList<Item>());
+
+            Item item01 = new Item();
+            item01.setKey("KEY_01");
+            item01.setValue("Jhon");
+            document.getItems().add(item01);
+
+            Item item02 = new Item();
+            item02.setKey("KEY_02");
+            item02.setValue("Doe");
+            document.getItems().add(item02);
+
+            Item item03 = new Item();
+            item03.setKey("KEY_03");
+            item03.setValue("11111111T");
+            document.getItems().add(item03);
+
+            message.setDocument(document);
+            
+            // Copy policies form template
+            Template template = api.findTemplateByCode(TEMPLATE_CODE);
+            message.setPolicies(template.getForm().getSettings().getPolicies());
+
+            String messageCode = api.sendMessage(message);
+            System.out.println(messageCode);
+            Assert.assertNotNull(messageCode);
+            
+        } catch (ApiException e) {
+            Assert.assertNotNull(testApiException(e));
+        }
+    }
+	
 	public ErrorResponse testApiException(ApiException e) {
 		try {
 			Assert.assertFalse(e.getMessage().contains("<"));
