@@ -1,4 +1,4 @@
-### Integración en proyecto maven
+# Integración en proyecto maven
 
 Es necesario añadir el siguiente repositorio
 
