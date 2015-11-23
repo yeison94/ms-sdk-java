@@ -17,8 +17,3 @@
 * **DEVICE_LOCALE** Idioma del dispositivo, por ejemplo "es_ES"
 * **DEVICE_TYPE** Tipo de dispositivo (ANDROID|IOS)
 * **DEVICE_APP_CODE** Código de la aplicación (configurado en el backend) al que pertenece el dispositivo de ejemplo
-
-##### Registrar un nuevo dispositivo
-
-{% include "./snippets/api_register_device.md" %}
- 
