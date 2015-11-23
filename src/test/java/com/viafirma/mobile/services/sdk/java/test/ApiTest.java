@@ -74,7 +74,6 @@ public class ApiTest {
         
         
         try {
-            //BEGIN-SNIPPET: api_initialize
             api = new V1Api();
             api.setBasePath(API_URL);
             api.setConsumerKey(CONSUMER_KEY);
@@ -86,7 +85,6 @@ public class ApiTest {
                 api.setAuth_mode(AUTH_MODE);
                 api.generateNewToken();
             }
-            //END-SNIPPET
         } catch (ApiException e) {
             Assert.assertEquals(e.getCode(), 401);
         } catch (Exception e) {

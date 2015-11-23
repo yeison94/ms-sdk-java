@@ -24,6 +24,7 @@ import com.viafirma.mobile.services.sdk.java.api.V1devicesApi;
 import com.viafirma.mobile.services.sdk.java.api.V1documentsApi;
 import com.viafirma.mobile.services.sdk.java.api.V1messagesApi;
 import com.viafirma.mobile.services.sdk.java.api.V1templateApi;
+import com.viafirma.mobile.services.sdk.java.api.V1usersApi;
 import com.viafirma.mobile.services.sdk.java.model.Device;
 import com.viafirma.mobile.services.sdk.java.model.Document;
 import com.viafirma.mobile.services.sdk.java.model.Document.TemplateTypeEnum;
@@ -37,6 +38,7 @@ import com.viafirma.mobile.services.sdk.java.model.Policy.TypeFormatSignEnum;
 import com.viafirma.mobile.services.sdk.java.model.Policy.TypeSignEnum;
 import com.viafirma.mobile.services.sdk.java.model.Template;
 import com.viafirma.mobile.services.sdk.java.model.TemplateList;
+import com.viafirma.mobile.services.sdk.java.model.User;
 
 /**
  * JUnit Test
@@ -50,7 +52,7 @@ public class V1ApiTest {
     private static final String USER_PASSWORD = "XXXXXXX";
     private static final String DEVICE_IDENTIFIER = "DDC0EB02-88D6-402F-91C6-1C0E09185C13";
 
-    private static final OAuthType oauthType = OAuthType.OAUTH_APPLICATION;
+    private static final OAuthType OAUTH_TYPE = OAuthType.OAUTH_APPLICATION;
     private static final String API_URL = "http://localhost/mobile-services/api";
     private static final String CONSUMER_KEY = "com.viafirma.mobile.services.crm";
     private static final String CONSUMER_SECRET = "XXXXXXXX";
@@ -61,18 +63,19 @@ public class V1ApiTest {
     @BeforeClass
     public static void setupOnce() {
         try {
+            //BEGIN-SNIPPET: api_initialize
             V1Api api = new V1Api();
             api.setBasePath(API_URL);
             api.setConsumerKey(CONSUMER_KEY);
             api.setConsumerSecret(CONSUMER_SECRET);
 
-            if (oauthType == OAuthType.OAUTH_USER) {
+            if (OAUTH_TYPE == OAuthType.OAUTH_USER) {
                 api.setUser(USER_CODE);
                 api.setPassword(USER_PASSWORD);
                 api.setAuth_mode(AUTH_MODE);
                 api.generateNewToken();
             }
-
+            //END-SNIPPET
         } catch (ApiException e) {
             Assert.assertEquals(e.getCode(), 401);
         } catch (Exception e) {
@@ -83,7 +86,9 @@ public class V1ApiTest {
     @Test
     public void t01FindDeviceByUser() {
         try {
+            //BEGIN-SNIPPET: api_v1_user_devices
             List<Device> devices = V1devicesApi.getInstance().findDeviceByUser(USER_CODE);
+            //END_SNIPPET
             Assert.assertNotNull(devices);
         } catch (ApiException e) {
             Assert.assertNotNull(testApiException(e));
@@ -93,7 +98,9 @@ public class V1ApiTest {
     @Test
     public void t02FindTemplatesByUser() {
         try {
+            //BEGIN-SNIPPET: api_v1_find_user_templates
             List<TemplateList> templates = V1templateApi.getInstance().findTemplatesByUser(USER_CODE);
+            //END_SNIPPET
             Assert.assertNotNull(templates);
         } catch (ApiException e) {
             Assert.assertNotNull(testApiException(e));
@@ -239,6 +246,18 @@ public class V1ApiTest {
                     Assert.assertNotNull(testApiException(new ApiException()));
                 }
             }
+        }
+    }
+    
+    @Test
+    public void t07FindUserByCode() {
+        try {
+            //BEGIN-SNIPPET: api_v1_find_user
+            User user = V1usersApi.getInstance().findUserByCode(USER_CODE);
+            //END-SNIPPET
+            Assert.assertNotNull(user);
+        } catch (ApiException e) {
+            Assert.assertNotNull(testApiException(e));
         }
     }
 

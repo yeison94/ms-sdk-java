@@ -34,6 +34,7 @@ done
 echo "Generate Doc"
 gitbook install ./
 gitbook build ./doc
+gitbook pdf ./doc
 
 echo "Prepare HTML"
 cp -rf doc/_book/ doc/html/
@@ -44,5 +45,7 @@ rm -rf node_modules
 echo "Distribute doc"
 mkdir -p ~/doc/ms-sdk-java
 cp -Rf doc/html/* ~/doc/ms-sdk-java/
+cp -Rf doc/book.pdf ~/doc/documents/book_es.pdf
 mkdir -p ~/doc/ms-sdk-java/$VERSION
 cp -Rf doc/html/* ~/doc/ms-sdk-java/$VERSION/
+cp -Rf doc/book.pdf ~/doc/documents/$VERSION/book_es.pdf

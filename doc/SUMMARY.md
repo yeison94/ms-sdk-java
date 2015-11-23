@@ -2,7 +2,15 @@
 
 * [Introducción](README.md)
 * [Instalación](install.md)
+* [Modelo de datos](data-model.md)
 * [Ejemplos de uso](use/use.md)
    * [Acceso con OAuth 1.0](use/oauthmd.md)
+   * [Listar dispositivos](use/find_user_devices.md)
+   * [Información del usuario](use/get_user_info.md)
+   * [Listar plantillas](use/find_user_templates.md)
+   * [Información de una plantilla](use/get_template_info.md)
+   * [Nuevo documento sin dispositivo](use/create_document.md)
+   * [Nuevo documento y envío al dispositivo](use/send_message.md)
+   * [Nuevo documento desde plantilla](use/send_message_with_template.md)
+   * [Descargar documento firmado](use/download_signed_doc.md)
    * [Compatibilidad SDK anterior a 2.5.X](use/legacy.md)
-
