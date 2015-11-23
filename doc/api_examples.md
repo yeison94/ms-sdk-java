@@ -4,4 +4,6 @@
 
 **Registro de dispositivos**
 
+![alt tag](snippets/api_register_device.md)
+
 !inc(snippets/api_register_device.md)
