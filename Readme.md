@@ -3,7 +3,7 @@ Mobile Services SDK Java
 
 Cliente Java para Mobile Services - Viafirma
 
-#### [Histórico de cambios y versiones](History.md)
+##### [Histórico de cambios y versiones](History.md)
 
 ### Integración en proyecto maven
 
@@ -24,7 +24,9 @@ Cliente Java para Mobile Services - Viafirma
 </dependency>
 `````
 
-### Ejemplo de uso:
+### Ejemplo de uso del api:
+
+[Integraciones realizadas antes](doc/api_examples.md)
 
 #### Recuperar información de un mensaje conocido el código
 

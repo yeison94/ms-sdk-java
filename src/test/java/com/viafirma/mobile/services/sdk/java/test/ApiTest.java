@@ -89,7 +89,8 @@ public class ApiTest {
 
 	@Test
 	public void t01RegisterDevice() {
-		try {
+	    //BEGIN-SNIPPET: api_register_device
+	    try {
 			Device device = new Device();
 			device.setAppCode(DEVICE_APP_CODE);
 			device.setUserCode(USER_CODE);
@@ -103,6 +104,7 @@ public class ApiTest {
 		} catch (ApiException e) {
 			Assert.assertNotNull(testApiException(e));
 		}
+	    //END-SNIPPET
 	}
 
 	@Test
