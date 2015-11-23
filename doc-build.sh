@@ -42,3 +42,7 @@ rm -f npm-debug.log
 rm -rf node_modules
 
 echo "Distribute doc"
+mkdir -p ~/doc/ms-sdk-java
+cp -Rf doc/html/* ~/doc/ms-sdk-java/
+mkdir -p ~/doc/ms-sdk-java/$VERSION
+cp -Rf doc/html/* ~/doc/ms-sdk-java/$VERSION/
