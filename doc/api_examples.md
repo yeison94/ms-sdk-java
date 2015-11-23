@@ -4,4 +4,4 @@
 
 **Registro de dispositivos**
 
-{% include doc/api_register_device.md %}
+{% include snippets/api_register_device.md %}
