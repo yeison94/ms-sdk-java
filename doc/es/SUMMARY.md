@@ -12,5 +12,9 @@
    * [Nuevo documento sin dispositivo](use/create_document.md)
    * [Nuevo documento y envío al dispositivo](use/send_message.md)
    * [Nuevo documento desde plantilla](use/send_message_with_template.md)
+   * [Firma documento externo](use/external_doc.md)
+   * [Consultar estado de la solicitud](use/get_message.md)
    * [Descargar documento firmado](use/download_signed_doc.md)
    * [Compatibilidad SDK anterior a 2.5.X](use/legacy.md)
+* [Servlet para callback](callbackmd.md)
+

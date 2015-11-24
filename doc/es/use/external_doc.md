@@ -1,8 +1,8 @@
-# Nuevo documento y envío al dispositivo
+# Firma documento externo
 
-En el siguiente ejemplo puede ver como solicitar la generación de un documento y configurar el dispositivo al que deseamos enviar la solicitud de firma.
+En el siguiente ejemplo puede ver como solicitar la firmar de un documento previamente generado y disponible en una url, así como un ejemplo de configuración del dispositivo al que deseamos enviar la solicitud de firma.
 
-{% include "../snippets/api_v1_send_message.md" %}
+{% include "../snippets/api_v1_send_external_doc.md" %}
 
 En el ejemplo anterior podemos ver como podemos indicar la url del servicio donde se avisará cuando el documento esté firmado y como configurar emails a los que enviar el documento firmado.
 
