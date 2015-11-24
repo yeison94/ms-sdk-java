@@ -13,6 +13,6 @@ Desde la administración de aplicaciones del backend, podremos configurar la seg
 
 En el siguiente ejemplo podemos ver como configurar el cliente para hacer uso de los direfentes servicios. 
 
-{% include "../snippets/api_initialize.md" %}
+{{ ../snippets/api_initialize.md }}
 
 En el ejemplo anterior podemos observar como en el caso de necesitar el acceso al API con OAuth a nivel de usuario, indicamos los datos de acceso del usuario y con el código ```api.generateNewToken();``` solicitamos un nuevo token.
