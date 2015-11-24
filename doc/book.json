@@ -1,11 +1,11 @@
 {
     "gitbook": ">=2.0.0",
-    "title": "Viafirma Documents SDK Java",
+    "title": "Viafirma Documents",
     "description": "Documentación oficial de Viafirma Documents",
     "variables": {},
     "links": {
         "sidebar": {
-            "Documents SDK Java": "http://doc.viafirma.com/ms-sdk-java"
+            "Viafirma Documents": "http://doc.viafirma.com/documents"
         },
         "sharing": {
             "google": false,
