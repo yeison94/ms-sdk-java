@@ -127,7 +127,6 @@ public class V1Api {
         token = accessToken(user, password, auth_mode);
         setToken(token.getOauth_token());
         setTokenSecret(token.getOauth_token_secret());
-        
     }
 
     public Device findDeviceByIdentifier(String identifier) throws ApiException {

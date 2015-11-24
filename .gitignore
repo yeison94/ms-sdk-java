@@ -5,3 +5,5 @@
 target/
 /bin
 /javadoc
+doc/.git/
+doc/html

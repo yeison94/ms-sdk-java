@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.8" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
+  <class id="1" language="java" name="com.viafirma.mobile.services.sdk.java.model.Form" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Form.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1475" y="287"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="com.viafirma.mobile.services.sdk.java.model.FormValue" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/FormValue.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1326" y="639"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="com.viafirma.mobile.services.sdk.java.model.EventHistory" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/EventHistory.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="118" width="119" x="1722" y="1148"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="4" language="java" name="com.viafirma.mobile.services.sdk.java.model.Policy.TypeSignEnum" 
+    project="ms-sdk-java" file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Policy.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="46" width="137" x="557" y="1148"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <class id="5" language="java" name="com.viafirma.mobile.services.sdk.java.model.Evidence" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Evidence.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="280" width="207" x="734" y="1148"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.viafirma.mobile.services.sdk.java.model.Template" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Template.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="136" width="128" x="1410" y="30"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.viafirma.mobile.services.sdk.java.model.Download" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Download.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="974" y="281"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="8" language="java" name="com.viafirma.mobile.services.sdk.java.model.Evidence.TypeEnum" 
+    project="ms-sdk-java" file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Evidence.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="804" y="1603"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <class id="9" language="java" name="com.viafirma.mobile.services.sdk.java.model.Token" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Token.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="82" width="172" x="688" y="30"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="10" language="java" name="com.viafirma.mobile.services.sdk.java.model.Policy.TypeFormatSignEnum" 
+    project="ms-sdk-java" file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Policy.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="46" width="176" x="981" y="1148"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <class id="11" language="java" name="com.viafirma.mobile.services.sdk.java.model.Row" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Row.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1563" y="610"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="com.viafirma.mobile.services.sdk.java.model.TemplateList" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/TemplateList.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="136" width="128" x="900" y="30"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="com.viafirma.mobile.services.sdk.java.model.Position" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Position.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="647" y="1612"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="14" language="java" name="com.viafirma.mobile.services.sdk.java.model.Notification.StatusEnum" 
+    project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Notification.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1574" y="1168"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <class id="15" language="java" name="com.viafirma.mobile.services.sdk.java.model.Setting" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Setting.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1079" y="527"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="16" language="java" name="com.viafirma.mobile.services.sdk.java.model.Evidence.StatusEnum" 
+    project="ms-sdk-java" file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Evidence.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="981" y="1603"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <enumeration id="17" language="java" name="com.viafirma.mobile.services.sdk.java.model.Document.TemplateTypeEnum" 
+    project="ms-sdk-java" file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Document.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="46" width="160" x="2112" y="1148"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <class id="18" language="java" name="com.viafirma.mobile.services.sdk.java.model.Notification" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Notification.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1428" y="948"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="com.viafirma.mobile.services.sdk.java.model.Device" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Device.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="208" width="149" x="1197" y="1148"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="com.viafirma.mobile.services.sdk.java.model.Alive" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Alive.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="82" width="100" x="1068" y="30"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="com.viafirma.mobile.services.sdk.java.model.InfoSystemStatus" 
+    project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/InfoSystemStatus.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="64" width="145" x="1578" y="30"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="com.viafirma.mobile.services.sdk.java.model.Rectangle" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Rectangle.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="465" y="1606"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="com.viafirma.mobile.services.sdk.java.model.User" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/User.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="316" width="162" x="1208" y="30"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="com.viafirma.mobile.services.sdk.java.model.Policy" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Policy.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1070" y="853"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="com.viafirma.mobile.services.sdk.java.model.FormNestedValue" 
+    project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/FormNestedValue.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1331" y="506"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="com.viafirma.mobile.services.sdk.java.model.Message" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Message.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1746" y="764"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="com.viafirma.mobile.services.sdk.java.model.Container" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Container.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1563" y="493"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="com.viafirma.mobile.services.sdk.java.model.Document" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Document.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="226" width="168" x="1960" y="882"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="com.viafirma.mobile.services.sdk.java.model.Param" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Param.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1434" y="738"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="30" language="java" name="com.viafirma.mobile.services.sdk.java.model.Device.StatusEnum" 
+    project="ms-sdk-java" file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Device.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1145" y="1489"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <class id="31" language="java" name="com.viafirma.mobile.services.sdk.java.model.Item" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Item.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2090" y="546"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <enumeration id="32" language="java" name="com.viafirma.mobile.services.sdk.java.model.Device.TypeEnum" 
+    project="ms-sdk-java" file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Device.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1326" y="1501"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </enumeration>  
+  <class id="33" language="java" name="com.viafirma.mobile.services.sdk.java.model.Workflow" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/Workflow.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1776" y="1027"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="com.viafirma.mobile.services.sdk.java.model.ErrorResponse" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/ErrorResponse.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1747" y="1493"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="com.viafirma.mobile.services.sdk.java.model.SystemStatus" project="ms-sdk-java" 
+    file="/ms-sdk-java/src/main/java/com/viafirma/mobile/services/sdk/java/model/SystemStatus.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1651" y="199"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <association id="36">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="37" name="form"/>      
+      <multiplicity id="38" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="39">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="40" name="items"/>      
+      <multiplicity id="41" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="43" name="evidences"/>      
+      <multiplicity id="44" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="25" navigable="false">      
+      <attribute id="46" name="values"/>      
+      <multiplicity id="47" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="49" name="error"/>      
+      <multiplicity id="50" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="52" name="status"/>      
+      <multiplicity id="53" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="55" name="type"/>      
+      <multiplicity id="56" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="57">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="58" name="templateType"/>      
+      <multiplicity id="59" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="60">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="61" name="rows"/>      
+      <multiplicity id="62" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="63">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="64" name="document"/>      
+      <multiplicity id="65" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="66">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="17"/>  
+  </nesting>  
+  <association id="67">    
+    <bendpoint x="1406" y="580"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="68" name="values"/>      
+      <multiplicity id="69" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="70">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="71" name="containers"/>      
+      <multiplicity id="72" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="73">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="74" name="devices"/>      
+      <multiplicity id="75" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="76">    
+    <bendpoint x="1686" y="882"/>    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="77" name="metadataList"/>      
+      <multiplicity id="78" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="79">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="80" name="positions"/>      
+      <multiplicity id="81" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="82">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="83" name="paramList"/>      
+      <multiplicity id="84" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="85">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="86" name="notification"/>      
+      <multiplicity id="87" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="88">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="89" name="nestedValues"/>      
+      <multiplicity id="90" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="91">    
+    <bendpoint x="1376" y="1148"/>    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="92" name="error"/>      
+      <multiplicity id="93" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="94">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="95" name="status"/>      
+      <multiplicity id="96" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="97">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="4"/>  
+  </nesting>  
+  <association id="98">    
+    <bendpoint x="1871" y="882"/>    
+    <bendpoint x="1871" y="1148"/>    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="99" name="error"/>      
+      <multiplicity id="100" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="101">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="102" name="policies"/>      
+      <multiplicity id="103" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="104">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="105" name="typeFormatSign"/>      
+      <multiplicity id="106" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="107">    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="108" name="history"/>      
+      <multiplicity id="109" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="110">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="111" name="metadata"/>      
+      <multiplicity id="112" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="113">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="114" name="policies"/>      
+      <multiplicity id="115" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="116">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="117" name="rectangle"/>      
+      <multiplicity id="118" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="119">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="120" name="status"/>      
+      <multiplicity id="121" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="122">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="123" name="typeSign"/>      
+      <multiplicity id="124" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="125">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="126" name="policy"/>      
+      <multiplicity id="127" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="128">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="129" name="info"/>      
+      <multiplicity id="130" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="35" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="131">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="132" name="type"/>      
+      <multiplicity id="133" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="134">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="135" name="workflow"/>      
+      <multiplicity id="136" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="137">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="10"/>  
+  </nesting>  
+  <association id="138">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="139" name="items"/>      
+      <multiplicity id="140" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="141">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="142" name="settings"/>      
+      <multiplicity id="143" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
