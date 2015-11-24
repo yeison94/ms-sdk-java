@@ -44,8 +44,8 @@ rm -rf node_modules
 
 echo "Distribute doc"
 mkdir -p ~/doc/ms-sdk-java
-cp -Rf doc/html/* ~/doc/ms-sdk-java/
-cp -Rf doc/book.pdf ~/doc/ms-sdk-java/book_es.pdf
+cp -Rf doc/html/es/* ~/doc/ms-sdk-java/
+cp -Rf doc/book_es.pdf ~/doc/ms-sdk-java/book_es.pdf
 mkdir -p ~/doc/ms-sdk-java/$VERSION
-cp -Rf doc/html/* ~/doc/ms-sdk-java/$VERSION/
-cp -Rf doc/book.pdf ~/doc/ms-sdk-java/$VERSION/book_es.pdf
+cp -Rf doc/html/es/* ~/doc/ms-sdk-java/$VERSION/
+cp -Rf doc/book_es.pdf ~/doc/ms-sdk-java/$VERSION/book_es.pdf
